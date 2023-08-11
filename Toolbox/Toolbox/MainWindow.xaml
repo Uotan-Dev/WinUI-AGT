@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Toolbox.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Toolbox"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+                Canvas.ZIndex="0"
+                IsHitTestVisible="False">
+            <Grid
+                    Height="48"
+                    Margin="48,0,0,0"
+                    VerticalAlignment="Top"
+                    Padding="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image
+                        x:Name="AppFontIcon"
+                        Width="16"
+                        Height="16"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Source="/Assets/Square44x44Logo.png" />
+                <TextBlock
+                        Margin="12,0,0,0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind GetAppTitleFromSystem()}"/>
+            </Grid>
+        </Border>
+        <Grid Name="PageContainer">
+            <NavigationView x:Name="NavigationViewControl" IsTitleBarAutoPaddingEnabled="False" BackRequested="NavigationViewControl_BackRequested" SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Auto"  PaneTitle="Android 极客工具箱" IsSettingsVisible="False">
+                <NavigationView.Header>
+                    <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                        <TextBlock Text="设备状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="conninfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="BL锁状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="BLinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="VAB状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="VABinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <Button x:Name="checkconn" Content="检查连接状态" Click="CheckconnClick" Margin="15,0,0,0"></Button>
+                        <Button x:Name="dialogBox" Content="Dialog测试" Click="ShowDialogClick" Margin="15,0,0,0"></Button>
+                    </StackPanel>
+                </NavigationView.Header>
+                <NavigationView.AutoSuggestBox>
+                    <AutoSuggestBox x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find" QuerySubmitted="QuerySubmitted" SuggestionChosen="SuggestionChosen"/>
+                </NavigationView.AutoSuggestBox>
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Icon="Play" Content="BL锁及驱动" Tag="Bootloader_Driver" Name="BLDriverMenuItem"/>
+                    <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
+                </NavigationView.MenuItems>
+                <NavigationView.FooterMenuItems>
+                    <NavigationViewItem Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
+                </NavigationView.FooterMenuItems>
+                <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated" Padding="55,10,0,0"/>
+            </NavigationView>
+        </Grid>
+    </Grid>
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt"/>
+    </Window.SystemBackdrop>
+</Window>

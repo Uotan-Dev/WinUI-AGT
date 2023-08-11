@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Toolbox.Bootloader_Driver"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Toolbox"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+        <TextBlock Text="Bootloader锁与驱动" Style="{StaticResource TitleTextBlockStyle}"/>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+            <Button x:Name="PickUnlockFileButton" Content="选择解锁文件"
+                Click="PickUnlockFileButton_Click" Margin="0,10,0,10"/>
+            <TextBlock x:Name="PickUnlockFileOutputTextBlock" TextWrapping="Wrap" Padding="20,5,0,0"/>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+            <Button x:Name="UnlockNowButton" Content="立即解锁"
+                Click="UnlockNowButton_Click" Margin="0,0,10,10"/>
+            <Button x:Name="RelockBootloaderButton" Content="回锁BL"
+                Click="RelockBootloaderButton_Click" Margin="0,0,0,10"/>
+        </StackPanel>
+    </StackPanel>
+</Page>

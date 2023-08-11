@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>
+	
+	  
+	  
+	  
+		  
+	
+	</id>
+    <version>1.0.0</version>
+    <authors>Toolbox</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net6.0-windows10.0.19041">
+        <dependency id="Microsoft.Windows.SDK.BuildTools" version="10.0.22621.755" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.WindowsAppSDK" version="1.3.230502000" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\Surface\source\repos\Toolbox\Toolbox\Toolbox\bin\x86\Debug\net6.0-windows10.0.19041.0\Toolbox.runtimeconfig.json" target="lib\net6.0-windows10.0.19041\Toolbox.runtimeconfig.json" />
+    <file src="C:\Users\Surface\source\repos\Toolbox\Toolbox\Toolbox\bin\x86\Debug\net6.0-windows10.0.19041.0\Toolbox.dll" target="lib\net6.0-windows10.0.19041\Toolbox.dll" />
+    <file src="C:\Users\Surface\source\repos\Toolbox\Toolbox\Toolbox\bin\x86\Debug\net6.0-windows10.0.19041.0\Toolbox.pri" target="lib\net6.0-windows10.0.19041\Toolbox.pri" />
+  </files>
+</package>

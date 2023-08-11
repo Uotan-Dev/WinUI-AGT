@@ -1,0 +1,1 @@
+E:\Visual Studio Source\Toolbox\Toolbox\Toolbox\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\Toolbox_0.0.1.0_Debug_Test\Toolbox_0.0.1.0_x64_Debug.msix
