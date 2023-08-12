@@ -18,6 +18,7 @@ using Windows.UI.Core;
 using System.Threading;
 using Windows.Foundation.Metadata;
 using static Toolbox.Bootloader_Driver;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,12 +60,33 @@ namespace Toolbox
 
             _ = await dialog.ShowAsync();
         }
-        public void ShowDialogClick(object sender, RoutedEventArgs e)
+
+        // 定义一个返回布尔值的消息弹窗
+        public async Task<bool> ShowDialogYesOrNo(string content)
         {
-            ShowDialog("Congratulations!");
+            ContentDialog dialog = new()
+            {
+                XamlRoot = this.PageContainer.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                Title = "提示",
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = new ContentDialogContent(content)
+            };
+
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        
+
         // 搜索框后端
         private void SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {

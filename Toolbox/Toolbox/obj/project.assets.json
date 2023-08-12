@@ -1202,11 +1202,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Visual Studio Source\\Toolbox\\Toolbox\\Toolbox\\Toolbox.csproj",
+      "projectUniqueName": "C:\\Users\\yuzh0\\Documents\\GitHub\\WinUI-AGT\\WinUI-AGT\\Toolbox\\Toolbox\\Toolbox.csproj",
       "projectName": "Toolbox",
-      "projectPath": "E:\\Visual Studio Source\\Toolbox\\Toolbox\\Toolbox\\Toolbox.csproj",
+      "projectPath": "C:\\Users\\yuzh0\\Documents\\GitHub\\WinUI-AGT\\WinUI-AGT\\Toolbox\\Toolbox\\Toolbox.csproj",
       "packagesPath": "C:\\Users\\yuzh0\\.nuget\\packages\\",
-      "outputPath": "E:\\Visual Studio Source\\Toolbox\\Toolbox\\Toolbox\\obj\\",
+      "outputPath": "C:\\Users\\yuzh0\\Documents\\GitHub\\WinUI-AGT\\WinUI-AGT\\Toolbox\\Toolbox\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

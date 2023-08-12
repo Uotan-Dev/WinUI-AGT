@@ -70,8 +70,6 @@
     <None Remove="Images\Wide310x150Logo.scale-150.png" />
     <None Remove="Images\Wide310x150Logo.scale-200.png" />
     <None Remove="Images\Wide310x150Logo.scale-400.png" />
-    <None Remove="MainPage.xaml" />
-    <None Remove="Message.xaml" />
     <None Remove="Rec_Reboot.xaml" />
     <None Remove="SettingsPage.xaml" />
   </ItemGroup>
@@ -141,19 +139,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="ContentDialogContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Message.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

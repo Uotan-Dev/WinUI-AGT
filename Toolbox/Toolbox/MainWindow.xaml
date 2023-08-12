@@ -48,7 +48,6 @@
                         <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
                         <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
                         <Button x:Name="checkconn" Content="检查连接状态" Click="CheckconnClick" Margin="15,0,0,0"></Button>
-                        <Button x:Name="dialogBox" Content="Dialog测试" Click="ShowDialogClick" Margin="15,0,0,0"></Button>
                     </StackPanel>
                 </NavigationView.Header>
                 <NavigationView.AutoSuggestBox>

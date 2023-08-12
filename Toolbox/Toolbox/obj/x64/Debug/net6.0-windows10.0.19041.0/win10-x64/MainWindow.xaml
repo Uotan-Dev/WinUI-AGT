@@ -20,14 +20,14 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image x:ConnectionId='15'
+                <Image x:ConnectionId='14'
                         x:Name="AppFontIcon"
                         Width="16"
                         Height="16"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Source="/Assets/Square44x44Logo.png" />
-                <TextBlock x:ConnectionId='16'
+                <TextBlock x:ConnectionId='15'
                         Margin="12,0,0,0"
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -48,20 +48,19 @@
                         <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
                         <TextBlock x:ConnectionId='7' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
                         <Button x:ConnectionId='8' x:Name="checkconn" Content="检查连接状态"                        Margin="15,0,0,0"></Button>
-                        <Button x:ConnectionId='9' x:Name="dialogBox" Content="Dialog测试"                         Margin="15,0,0,0"></Button>
                     </StackPanel>
                 </NavigationView.Header>
                 <NavigationView.AutoSuggestBox>
-                    <AutoSuggestBox x:ConnectionId='10' x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find"                                                                    />
+                    <AutoSuggestBox x:ConnectionId='9' x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find"                                                                    />
                 </NavigationView.AutoSuggestBox>
                 <NavigationView.MenuItems>
-                    <NavigationViewItem x:ConnectionId='11' Icon="Play" Content="BL锁及驱动" Tag="Bootloader_Driver" Name="BLDriverMenuItem"/>
-                    <NavigationViewItem x:ConnectionId='12' Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
+                    <NavigationViewItem x:ConnectionId='10' Icon="Play" Content="BL锁及驱动" Tag="Bootloader_Driver" Name="BLDriverMenuItem"/>
+                    <NavigationViewItem x:ConnectionId='11' Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
-                    <NavigationViewItem x:ConnectionId='13' Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
+                    <NavigationViewItem x:ConnectionId='12' Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
                 </NavigationView.FooterMenuItems>
-                <Frame x:ConnectionId='14' x:Name="ContentFrame"                                    Padding="55,10,0,0"/>
+                <Frame x:ConnectionId='13' x:Name="ContentFrame"                                    Padding="55,10,0,0"/>
             </NavigationView>
         </Grid>
     </Grid>

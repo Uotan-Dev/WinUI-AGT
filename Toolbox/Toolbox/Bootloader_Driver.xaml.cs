@@ -7,6 +7,7 @@ using Toolbox;
 using Microsoft.UI.Xaml.Navigation;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using System.Threading;
 
 
 
@@ -105,7 +106,52 @@ namespace Toolbox
 
         private void RelockBootloaderButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            parent.Checkcon();
+            if (parent.ConnInfoText == "Fastboot")
+            {
+                string shell = "oem lock-go";
+                string shell2 = "flashing lock";
+                ADBHelper.Fastboot(shell);
+                int sf = ADBHelper.Fastboot(shell2).IndexOf("OKAY");
+                if (sf != -1)
+                {
+                    parent.ShowDialog("回锁成功！");
+                }
+                else
+                {
+                    parent.ShowDialog("回锁失败！");
+                }
+            }
+            else
+            {
+                parent.ShowDialog("请进入Fastboot模式！");
+            }
+        }
+
+        private async void OemUnlockClick(object sender, RoutedEventArgs e)
+        {
+            parent.Checkcon();
+            if (UnlockShell.SelectedIndex != -1)
+            {
+                if (parent.ConnInfoText == "Fastboot")
+                {
+                    bool result = await parent.ShowDialogYesOrNo("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
+                    if (result == true)
+                    {
+                        string shell = UnlockShell.Text;
+                        ADBHelper.Fastboot(shell);
+                        parent.ShowDialog("执行完成，请查看您的设备！");
+                    }
+                }
+                else
+                {
+                    parent.ShowDialog("请进入Fastboot模式！");
+                }
+            }
+            else
+            {
+                parent.ShowDialog("请选择解锁命令！");
+            }
         }
     }
 }

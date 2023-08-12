@@ -10,16 +10,32 @@
     
     <StackPanel VerticalAlignment="Top" Orientation="Vertical">
         <TextBlock Text="Bootloader锁与驱动" Style="{StaticResource TitleTextBlockStyle}"/>
-        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-            <Button x:ConnectionId='4' x:Name="PickUnlockFileButton" Content="选择解锁文件"
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+            <TextBlock Text="设备解锁" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:ConnectionId='6' x:Name="PickUnlockFileButton" Content="选择解锁文件"
                                                    Margin="0,10,0,10"/>
-            <TextBlock x:ConnectionId='5' x:Name="PickUnlockFileOutputTextBlock" TextWrapping="Wrap" Padding="20,5,0,0"/>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-            <Button x:ConnectionId='2' x:Name="UnlockNowButton" Content="立即解锁"
+                <TextBlock x:ConnectionId='7' x:Name="PickUnlockFileOutputTextBlock" TextWrapping="Wrap" Padding="20,5,0,0"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:ConnectionId='4' x:Name="UnlockNowButton" Content="立即解锁"
                                               Margin="0,0,10,10"/>
-            <Button x:ConnectionId='3' x:Name="RelockBootloaderButton" Content="回锁BL"
+                <Button x:ConnectionId='5' x:Name="RelockBootloaderButton" Content="回锁BL"
                                                      Margin="0,0,0,10"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+            <TextBlock Text="基本解锁命令" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <ComboBox x:ConnectionId='2' x:Name="UnlockShell" Width="200" Margin="10">
+                    <ComboBoxItem Content="oem unlock"/>
+                    <ComboBoxItem Content="oem unlock-go"/>
+                    <ComboBoxItem Content="flashing unlock"/>
+                    <ComboBoxItem Content="flashing unlock_critical"/>
+                </ComboBox>
+                <Button x:ConnectionId='3' x:Name="OemUnlockButton" Content="执行解锁命令"
+                                       Margin="0,10,0,10"/>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </Page>
