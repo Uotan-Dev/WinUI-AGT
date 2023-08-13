@@ -3,16 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using Toolbox;
 using Microsoft.UI.Xaml.Navigation;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
-using System.Threading;
-
-
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Toolbox
 {
@@ -42,7 +33,7 @@ namespace Toolbox
         }
 
         // Bootloader文件选择器
-        private async void PickUnlockFileButton_Click(object sender, RoutedEventArgs e)
+        private async void PickUnlockFileClick(object sender, RoutedEventArgs e)
         {
             // Clear previous returned file name, if it exists, between iterations of this scenario
             PickUnlockFileOutputTextBlock.Text = "";
@@ -71,7 +62,7 @@ namespace Toolbox
         }
 
         // Bootloader解锁按钮
-        private void UnlockNowButton_Click(object sender, RoutedEventArgs e)
+        private void UnlockBootloaderClick(object sender, RoutedEventArgs e)
         {
             parent.Checkcon();
             if (parent.ConnInfoText == "Fastboot")
@@ -104,7 +95,7 @@ namespace Toolbox
         }
 
 
-        private void RelockBootloaderButton_Click(object sender, RoutedEventArgs e)
+        private void RelockBootloaderClick(object sender, RoutedEventArgs e)
         {
             parent.Checkcon();
             if (parent.ConnInfoText == "Fastboot")
@@ -152,6 +143,16 @@ namespace Toolbox
             {
                 parent.ShowDialog("请选择解锁命令！");
             }
+        }
+
+        private void XiaomiUnlockClick(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"unlock\xiaomi\batch_unlock.exe");
+        }
+
+        private void ViqooUnlockClick(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"unlock\vivo\launch.exe");
         }
     }
 }

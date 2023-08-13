@@ -84,7 +84,10 @@
 	<Content Include="lib\**">
 		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
-    <Content Include="Images\LargeTile.scale-100.png" />
+	<Content Include="unlock\vivo\**" />
+	<Content Include="unlock\xiaomi\**" />
+    
+	<Content Include="Images\LargeTile.scale-100.png" />
     <Content Include="Images\LargeTile.scale-125.png" />
     <Content Include="Images\LargeTile.scale-150.png" />
     <Content Include="Images\LargeTile.scale-200.png" />
@@ -164,5 +167,6 @@
 
   <ItemGroup>
     <Folder Include="lib\" />
+    <Folder Include="unlock\" />
   </ItemGroup>
 </Project>

@@ -7,21 +7,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
+
     <StackPanel VerticalAlignment="Top" Orientation="Vertical">
         <TextBlock Text="Bootloader锁与驱动" Style="{StaticResource TitleTextBlockStyle}"/>
         <StackPanel VerticalAlignment="Top" Orientation="Vertical">
             <TextBlock Text="设备解锁" Style="{StaticResource SubtitleTextBlockStyle}"/>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
                 <Button x:Name="PickUnlockFileButton" Content="选择解锁文件"
-                Click="PickUnlockFileButton_Click" Margin="0,10,0,10"/>
+                        Click="PickUnlockFileClick" Margin="0,10,0,10"/>
                 <TextBlock x:Name="PickUnlockFileOutputTextBlock" TextWrapping="Wrap" Padding="20,5,0,0"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                <Button x:Name="UnlockNowButton" Content="立即解锁"
-                Click="UnlockNowButton_Click" Margin="0,0,10,10"/>
+                <Button x:Name="UnlockBootloaderButton" Content="立即解锁"
+                        Click="UnlockBootloaderClick" Margin="0,0,10,10"/>
                 <Button x:Name="RelockBootloaderButton" Content="回锁BL"
-                Click="RelockBootloaderButton_Click" Margin="0,0,0,10"/>
+                        Click="RelockBootloaderClick" Margin="0,0,0,10"/>
             </StackPanel>
         </StackPanel>
         <StackPanel VerticalAlignment="Top" Orientation="Vertical">
@@ -35,6 +35,20 @@
                 </ComboBox>
                 <Button x:Name="OemUnlockButton" Content="执行解锁命令"
                 Click="OemUnlockClick" Margin="0,10,0,10"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+            <TextBlock Text="小米解锁工具" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:Name="XiaomiUnlockButton" Content="打开解锁工具"
+                        Click="XiaomiUnlockClick" Margin="0,10,0,10"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+            <TextBlock Text="ViQoo解锁工具" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:Name="VicooUnlockButton" Content="打开ViCoo工具"
+                Click="ViqooUnlockClick" Margin="0,10,0,10"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>
