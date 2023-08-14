@@ -3,7 +3,6 @@
     x:Class="Toolbox.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Toolbox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -20,14 +19,14 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image x:ConnectionId='14'
+                <Image x:ConnectionId='15'
                         x:Name="AppFontIcon"
                         Width="16"
                         Height="16"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Source="/Assets/Square44x44Logo.png" />
-                <TextBlock x:ConnectionId='15'
+                <TextBlock x:ConnectionId='16'
                         Margin="12,0,0,0"
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -54,13 +53,14 @@
                     <AutoSuggestBox x:ConnectionId='9' x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find"                                                                    />
                 </NavigationView.AutoSuggestBox>
                 <NavigationView.MenuItems>
-                    <NavigationViewItem x:ConnectionId='10' Icon="Play" Content="BL锁及驱动" Tag="Bootloader_Driver" Name="BLDriverMenuItem"/>
+                    <NavigationViewItem x:ConnectionId='10' Icon="Play" Content="BL锁及驱动" Tag="BootloaderDriver" Name="BLDriverMenuItem"/>
                     <NavigationViewItem x:ConnectionId='11' Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
+                    <NavigationViewItem x:ConnectionId='12' Icon="Repair" Content="线刷ROM" Tag="FlashRom" Name="FlashRomMenuItem"/>
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
-                    <NavigationViewItem x:ConnectionId='12' Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
+                    <NavigationViewItem x:ConnectionId='13' Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
                 </NavigationView.FooterMenuItems>
-                <Frame x:ConnectionId='13' x:Name="ContentFrame"                                    Padding="55,10,0,0"/>
+                <Frame x:ConnectionId='14' x:Name="ContentFrame"                                    Padding="55,10,0,0"/>
             </NavigationView>
         </Grid>
     </Grid>

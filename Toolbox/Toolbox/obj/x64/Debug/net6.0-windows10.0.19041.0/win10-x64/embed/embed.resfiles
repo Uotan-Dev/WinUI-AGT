@@ -1,6 +1,7 @@
 App.xbf
-Bootloader_Driver.xbf
+BootloaderDriver.xbf
 ContentDialogContent.xbf
+FlashRom.xbf
 MainWindow.xbf
 Rec_Reboot.xbf
 SettingsPage.xbf

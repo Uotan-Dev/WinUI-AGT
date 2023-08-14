@@ -10,9 +10,9 @@ using System.Security.Principal;
 
 namespace Toolbox
 {
-    public sealed partial class Bootloader_Driver : Page
+    public sealed partial class BootloaderDriver : Page
     {
-        public MainWindow parent { get; set; }
+        public new MainWindow Parent { get; set; }
 
         public class BootloaderDriverParameter
         {
@@ -25,12 +25,12 @@ namespace Toolbox
 
             if (e.Parameter is BootloaderDriverParameter parameter)
             {
-                parent = parameter.Parent;
+                Parent = parameter.Parent;
             }
         }
 
         //定义窗口
-        public Bootloader_Driver()
+        public BootloaderDriver()
         {
             this.InitializeComponent();
         }
@@ -52,87 +52,62 @@ namespace Toolbox
         }
 
         // Bootloader解锁按钮
-        private void UnlockBootloaderClick(object sender, RoutedEventArgs e)
+        private async void UnlockBootloaderClick(object sender, RoutedEventArgs e)
         {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Fastboot")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
             {
                 if (PickUnlockFileOutputTextBlock.Text != "")
                 {
                     string file = PickUnlockFileOutputTextBlock.Text;
                     string shell = string.Format("flash unlock {0}", file);
                     string shell2 = "oem unlock-go";
-                    ADBHelper.Fastboot(shell);
-                    int sf = ADBHelper.Fastboot(shell2).IndexOf("OKAY");
-                    if (sf != -1)
-                    {
-                        parent.ShowDialog("解锁成功！");
-                    }
-                    else
-                    {
-                        parent.ShowDialog("解锁失败！");
-                    }
+                    _ = ADBHelper.Fastboot(shell);
+                    string sfstring = await ADBHelper.Fastboot(shell2);
+                    int sf = sfstring.Contains("OKAY") ? sfstring.IndexOf("OKAY") : -1;
+                    if (sf != -1) _ = Parent.ShowDialog("解锁成功！");
+                    else _ = Parent.ShowDialog("解锁失败！");
                 }
-                else
-                {
-                    parent.ShowDialog("请选择解锁文件！");
-                }
+                else _ = Parent.ShowDialog("请选择解锁文件！");
             }
-            else
-            {
-                parent.ShowDialog("请进入Fastboot模式！");
-            }
+            else  _ = Parent.ShowDialog("请进入Fastboot模式！");
         }
 
 
-        private void RelockBootloaderClick(object sender, RoutedEventArgs e)
+        private async void RelockBootloaderClick(object sender, RoutedEventArgs e)
         {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Fastboot")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
             {
                 string shell = "oem lock-go";
                 string shell2 = "flashing lock";
-                ADBHelper.Fastboot(shell);
-                int sf = ADBHelper.Fastboot(shell2).IndexOf("OKAY");
-                if (sf != -1)
-                {
-                    parent.ShowDialog("回锁成功！");
-                }
-                else
-                {
-                    parent.ShowDialog("回锁失败！");
-                }
+                _ = ADBHelper.Fastboot(shell);
+                string sfstring = await ADBHelper.Fastboot(shell2);
+                int sf = sfstring.Contains("OKAY") ? sfstring.IndexOf("OKAY") : -1;
+                if (sf != -1)  _ = Parent.ShowDialog("回锁成功！");
+                else _ = Parent.ShowDialog("回锁失败！");
             }
-            else
-            {
-                parent.ShowDialog("请进入Fastboot模式！");
-            }
+            else _ = Parent.ShowDialog("请进入Fastboot模式！");
         }
 
         private async void OemUnlockClick(object sender, RoutedEventArgs e)
         {
             if (UnlockShell.SelectedIndex != -1)
             {
-                parent.Checkcon();
-                if (parent.ConnInfoText == "Fastboot")
+                Parent.CheckconAsync();
+                if (Parent.ConnInfoText == "Fastboot")
                 {
-                    bool result = await parent.ShowDialogYesOrNo("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
+                    bool result = await Parent.ShowDialogYesOrNo("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
                     if (result == true)
                     {
                         string shell = UnlockShell.Text;
-                        ADBHelper.Fastboot(shell);
-                        parent.ShowDialog("执行完成，请查看您的设备！");
+                        _ = ADBHelper.Fastboot(shell);
+                        _ = Parent.ShowDialog("执行完成，请查看您的设备！");
                     }
                 }
-                else
-                {
-                    parent.ShowDialog("请进入Fastboot模式！");
-                }
+                else _ = Parent.ShowDialog("请进入Fastboot模式！");
             }
-            else
-            {
-                parent.ShowDialog("请选择解锁命令！");
-            }
+            else _ = Parent.ShowDialog("请选择解锁命令！");
         }
 
         private void XiaomiUnlockClick(object sender, RoutedEventArgs e)
@@ -147,13 +122,13 @@ namespace Toolbox
         static bool IsUserAdministrator()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         private void RestartTip()
         {
-            parent.ShowDialog("此命令需要提升权限，\n请使用管理员身份重新打开本应用。");
+            _ = Parent.ShowDialog("此命令需要提升权限，\n请使用管理员身份重新打开本应用。");
         }
 
         private void InstallAdbClick(object sender, RoutedEventArgs e)
@@ -179,7 +154,7 @@ namespace Toolbox
                 key.SetValue("SkipContainerIdQuery", new byte[] { 0x01, 0x00, 0x00, 0x00 }, RegistryValueKind.Binary);
                 key.SetValue("SkipBOSDescriptorQuery", new byte[] { 0x01, 0x00, 0x00, 0x00 }, RegistryValueKind.Binary);
                 key.Close();
-                parent.ShowDialog("执行成功！");
+                _ = Parent.ShowDialog("执行成功！");
             }
             else
                 RestartTip();

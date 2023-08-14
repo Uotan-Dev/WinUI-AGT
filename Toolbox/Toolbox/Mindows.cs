@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -56,7 +54,7 @@ namespace Toolbox
 
         public static string GetProductID(string info)
         {
-            if (info.IndexOf("FAILED") == -1)
+            if (!info.Contains("FAILED", StringComparison.CurrentCulture))
             {
                 char[] charSeparators = new char[] { ' ' };
                 string[] infos = info.Split('\n');
@@ -71,39 +69,34 @@ namespace Toolbox
 
         public static async Task DownloadFile(string URL, string filename, ProgressBar prog, TextBlock label1)
         {
-            float percent = 0;
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = new();
                 HttpResponseMessage response = await client.GetAsync(URL);
                 long totalBytes = response.Content.Headers.ContentLength ?? 0;
                 if (prog != null)
                 {
                     prog.Maximum = (int)totalBytes;
                 }
-                using (Stream st = await response.Content.ReadAsStreamAsync())
+                using Stream st = await response.Content.ReadAsStreamAsync();
+                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                using Stream so = await file.OpenStreamForWriteAsync();
+                long totalDownloadedByte = 0;
+                byte[] by = new byte[1024];
+                int osize = await st.ReadAsync(by);
+                while (osize > 0)
                 {
-                    StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
-                    using (Stream so = await file.OpenStreamForWriteAsync())
+                    totalDownloadedByte = osize + totalDownloadedByte;
+                    await Task.Delay(1); // 等待一小段时间，以允许UI更新
+                    await so.WriteAsync(by.AsMemory(0, osize));
+                    if (prog != null)
                     {
-                        long totalDownloadedByte = 0;
-                        byte[] by = new byte[1024];
-                        int osize = await st.ReadAsync(by, 0, by.Length);
-                        while (osize > 0)
-                        {
-                            totalDownloadedByte = osize + totalDownloadedByte;
-                            await Task.Delay(1); // 等待一小段时间，以允许UI更新
-                            await so.WriteAsync(by, 0, osize);
-                            if (prog != null)
-                            {
-                                prog.Value = (int)totalDownloadedByte;
-                            }
-                            osize = await st.ReadAsync(by, 0, by.Length);
-                            percent = (float)totalDownloadedByte / (float)totalBytes * 100;
-                            label1.Text = "下载进度" + percent.ToString() + "%";
-                            await Task.Delay(1); // 等待一小段时间，以允许UI更新
-                        }
+                        prog.Value = (int)totalDownloadedByte;
                     }
+                    osize = await st.ReadAsync(by);
+                    float percent = (float)totalDownloadedByte / (float)totalBytes * 100;
+                    label1.Text = "下载进度" + percent.ToString() + "%";
+                    await Task.Delay(1); // 等待一小段时间，以允许UI更新
                 }
             }
             catch (Exception)
@@ -119,9 +112,9 @@ namespace Toolbox
             {
                 foreach (FileInfo fileInfo in DirectInfo.GetFiles("*.7z.001"))
                 {
-                    Process process = new Process();
+                    Process process = new();
                     process.StartInfo.FileName = @"lib/7z.exe";
-                    process.StartInfo.Arguments = " x " + fileInfo.FullName + " -o" + fileInfo.FullName.Substring(0, fileInfo.FullName.LastIndexOf('\\')) + " -y";
+                    process.StartInfo.Arguments = " x " + fileInfo.FullName + " -o" + fileInfo.FullName[..fileInfo.FullName.LastIndexOf('\\')] + " -y";
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.RedirectStandardOutput = true;
@@ -135,8 +128,8 @@ namespace Toolbox
 
         public static void Write(string file, string text)//写入到txt文件
         {
-            FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs);
+            FileStream fs = new(file, FileMode.Create, FileAccess.Write);
+            StreamWriter sw = new(fs);
             sw.Write(text);
             sw.Flush();
             sw.Close();
@@ -147,15 +140,13 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = parttable.Split(new char[2] { '\r', '\n' });
-            string partneed = "";
-            string[] partno = null;
             for (int i = 0; i < parts.Length; i++)
             {
-                partneed = parts[i];
+                string partneed = parts[i];
                 int find = partneed.IndexOf(findpart);
                 if (find != -1)
                 {
-                    partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    string[] partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     if (partno.Length == 5)
                     {
                         if (partno[4] == findpart)
@@ -175,15 +166,13 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = part.Split(new char[2] { '\r', '\n' });
-            string partneed = "";
-            string[] parted = null;
             for (int i = 0; i < parts.Length; i++)
             {
-                partneed = parts[i];
+                string partneed = parts[i];
                 int find = partneed.IndexOf(findpart);
                 if (find != -1)
                 {
-                    parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    string[] parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     if (parted.Length == 5)
                     {
                         if (parted[4] == findpart)
@@ -203,15 +192,13 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = part.Split(new char[2] { '\r', '\n' });
-            string partneed = "";
-            string[] parted = null;
             for (int i = 0; i < parts.Length; i++)
             {
-                partneed = parts[i];
+                string partneed = parts[i];
                 int find = partneed.IndexOf(findpart);
                 if (find != -1)
                 {
-                    parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    string[] parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     if (parted.Length == 5)
                     {
                         if (parted[4] == findpart)
@@ -231,15 +218,13 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = part.Split(new char[2] { '\r', '\n' });
-            string partneed = "";
-            string[] parted = null;
             for (int i = 0; i < parts.Length; i++)
             {
-                partneed = parts[i];
+                string partneed = parts[i];
                 int find = partneed.IndexOf(findpart);
                 if (find != -1)
                 {
-                    parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    string[] parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     if (parted.Length == 5)
                     {
                         if (parted[4] == findpart)
@@ -277,7 +262,7 @@ namespace Toolbox
 
         public static string Readtxt(string path)//读取txt文档
         {
-            StreamReader sr = new StreamReader(path);
+            StreamReader sr = new(path);
             string line = sr.ReadToEnd();
             sr.Close();
             return line;
@@ -294,9 +279,9 @@ namespace Toolbox
                     string bcka = string.Format(@"shell dd if=/dev/block/{0}{1} of={2}.img", sdxx, partnum, part);
                     string bckb = string.Format(@"pull /{0}.img backup\", part);
                     string bckc = string.Format(@"shell rm /{0}.img", part);
-                    ADBHelper.ADB(bcka);
-                    ADBHelper.ADB(bckb);
-                    ADBHelper.ADB(bckc);
+                    _ = ADBHelper.ADB(bcka);
+                    _ = ADBHelper.ADB(bckb);
+                    _ = ADBHelper.ADB(bckc);
                 }
             }
         }
@@ -395,7 +380,7 @@ namespace Toolbox
                 {
                     if (File.Exists(d))
                     {
-                        FileInfo fi = new FileInfo(d);
+                        FileInfo fi = new(d);
                         if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
                             fi.Attributes = System.IO.FileAttributes.Normal;
                         File.Delete(d);//直接删除其中的文件   
@@ -413,7 +398,7 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = parttable.Split('\n');
-            string partneed = parts[parts.Length - 3];
+            string partneed = parts[^3];
             string[] parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
             return parted[2];
         }
@@ -422,7 +407,7 @@ namespace Toolbox
         {
             char[] charSeparators = new char[] { ' ' };
             string[] parts = parttable.Split('\n');
-            string partneed = parts[parts.Length - 3];
+            string partneed = parts[^3];
             string[] parted = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
             return parted[0];
         }
@@ -432,7 +417,7 @@ namespace Toolbox
             if (parttable.IndexOf("userdata") != -1)
             {
                 string[] parts = parttable.Split('\n');
-                string partneed = parts[parts.Length - 3];
+                string partneed = parts[^3];
                 if (partneed.IndexOf("userdata") != -1)
                 {
                     return true;
@@ -451,12 +436,13 @@ namespace Toolbox
         public static string Devcon(string fb)//USB设备
         {
             string cmd = @"lib/devcon.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader readererror = f.StandardError;
             StreamReader reader = f.StandardOutput;
@@ -481,7 +467,7 @@ namespace Toolbox
                     break;
             }
             string[] device = deviceneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-            string[] dev = device[device.Length - 1].Split('(', ')');
+            string[] dev = device[^1].Split('(', ')');
             return dev[1];
         }
 
@@ -499,22 +485,22 @@ namespace Toolbox
                     break;
             }
             string[] device = deviceneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-            string[] dev = device[device.Length - 1].Split('(', ')');
+            string[] dev = device[^1].Split('(', ')');
             int back = Onlynum(dev[1]);
             return back;
         }
 
-        public static void GetPartTable()
+        public static async void GetPartTable()
         {
-            ADBHelper.ADB("push lib/parted /tmp/");
-            ADBHelper.ADB("shell chmod +x /tmp/parted");
-            Global.sdatable = ADBHelper.ADB("shell /tmp/parted /dev/block/sda print");
-            Global.sdbtable = ADBHelper.ADB("shell /tmp/parted /dev/block/sdb print");
-            Global.sdctable = ADBHelper.ADB("shell /tmp/parted /dev/block/sdc print");
-            Global.sddtable = ADBHelper.ADB("shell /tmp/parted /dev/block/sdd print");
-            Global.sdetable = ADBHelper.ADB("shell /tmp/parted /dev/block/sde print");
-            Global.sdftable = ADBHelper.ADB("shell /tmp/parted /dev/block/sdf print");
-            Global.emmcrom = ADBHelper.ADB("shell /tmp/parted /dev/block/mmcblk0 print");
+            _ = await ADBHelper.ADB("push lib/parted /tmp/");
+            _ = await ADBHelper.ADB("shell chmod +x /tmp/parted");
+            Global.sdatable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sda print");
+            Global.sdbtable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sdb print");
+            Global.sdctable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sdc print");
+            Global.sddtable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sdd print");
+            Global.sdetable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sde print");
+            Global.sdftable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sdf print");
+            Global.emmcrom = await ADBHelper.ADB("shell /tmp/parted /dev/block/mmcblk0 print");
         }
 
         public static string FindDisk(string Partname)
@@ -583,23 +569,21 @@ namespace Toolbox
             string[] Lines = PartTable.Split('\n');
             char[] charSeparators = new char[] { ' ' };
             string[] NeedLine = Lines[1].Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-            string size = NeedLine[NeedLine.Length - 1];
+            string size = NeedLine[^1];
             return size;
         }
 
-        public static string WebRead(string url)
+        public static async Task<string> WebRead(string url)
         {
             string read = "";
-            HttpWebRequest request;
-            HttpWebResponse response;
-            TextReader tr;
-            if (url != "")
+            if (!string.IsNullOrEmpty(url))
             {
-                request = (HttpWebRequest)WebRequest.Create(url);
-                response = (HttpWebResponse)request.GetResponse();
-                tr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                read = tr.ReadToEnd();
-                response.Close();
+                using HttpClient client = new();
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    read = await response.Content.ReadAsStringAsync();
+                }
             }
             return read;
         }
@@ -607,12 +591,13 @@ namespace Toolbox
         public static string Curl(string fb)
         {
             string cmd = @"lib/curl.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader reader = f.StandardOutput;
             string output = reader.ReadToEnd();
@@ -622,11 +607,10 @@ namespace Toolbox
         public static string Addtp(string link)
         {
             string[] line = link.Split('/');
-            string part = "";
             string outlink = "";
             for (int i = 0; i < line.Length; i++)
             {
-                part = line[i];
+                string part = line[i];
                 int find = part.IndexOf(".com");
                 if (find != -1)
                 {
@@ -709,12 +693,13 @@ namespace Toolbox
         public static string NSudoLC(string fb)
         {
             string cmd = @"lib/NSudoLC.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader reader = f.StandardOutput;
             string output = reader.ReadToEnd();
@@ -724,12 +709,13 @@ namespace Toolbox
         public static string Whoami(string fb)
         {
             string cmd = @"whoami.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader reader = f.StandardOutput;
             string output = reader.ReadToEnd();
@@ -739,7 +725,7 @@ namespace Toolbox
         public static byte[] Object2Bytes(object obj)
         {
             byte[] buff;
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new())
             {
                 IFormatter iFormatter = new BinaryFormatter();
                 iFormatter.Serialize(ms, obj);
@@ -751,12 +737,13 @@ namespace Toolbox
         public static string Reg(string fb)
         {
             string cmd = @"reg.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader readererror = f.StandardError;
             StreamReader reader = f.StandardOutput;

@@ -1,25 +1,15 @@
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Windows.UI.Core;
-using System.Threading;
-using Windows.Foundation.Metadata;
-using static Toolbox.Bootloader_Driver;
 using System.Threading.Tasks;
+using static Toolbox.BootloaderDriver;
 using static Toolbox.Rec_Reboot;
+using static Toolbox.FlashRom;
+using Windows.ApplicationModel.Activation;
 
 namespace Toolbox
 {
@@ -34,7 +24,7 @@ namespace Toolbox
 
             // 创建一个临时对象来传递母窗口
             var parent = new BootloaderDriverParameter { Parent = this };
-            ContentFrame.Navigate(typeof(Bootloader_Driver), parent);
+            ContentFrame.Navigate(typeof(BootloaderDriver), parent);
         }
         public string GetAppTitleFromSystem()
         {
@@ -42,7 +32,7 @@ namespace Toolbox
         }
 
         // 消息弹窗 = MessageBox
-        public async void ShowDialog(string content)
+        public async Task ShowDialog(string content)
         {
             ContentDialog dialog = new()
             {
@@ -55,7 +45,7 @@ namespace Toolbox
                 Content = new ContentDialogContent(content)
             };
 
-            _ = await dialog.ShowAsync();
+            await dialog.ShowAsync();
         }
 
         // 返回布尔值的消息弹窗
@@ -73,14 +63,8 @@ namespace Toolbox
             };
 
             var result = await dialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (result == ContentDialogResult.Primary) return true;
+            else return false;
         }
 
         // 搜索框后端
@@ -90,7 +74,7 @@ namespace Toolbox
         }
         private void QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            string txt = args.QueryText;  //输入的文本
+            _ = args.QueryText;  //输入的文本
             if (args.ChosenSuggestion != null)
             {
                 //从提示框中选择某一项时触发
@@ -103,72 +87,49 @@ namespace Toolbox
 
 
         // 检查连接函数 - 全局
-        public void Checkcon()
+        public async void CheckconAsync()
         {
-            if (ADBHelper.Fastboot("devices") != "")
-            {
-                conninfo.Text = "Fastboot";
-            }
-            else
-            {
-                conninfo.Text = "未连接";
-            }
-            int adbcheck = ADBHelper.ADB("devices").IndexOf("recovery");
-            if (adbcheck != -1)
-            {
-                conninfo.Text = "Recovery";
-            }
-            int adbcheck2 = ADBHelper.ADB("devices").IndexOf("sideload");
-            if (adbcheck2 != -1)
-            {
-                conninfo.Text = "Sideload";
-            }
-            int adbcheck3 = ADBHelper.ADB("devices").IndexOf("	device");
-            if (adbcheck3 != -1)
-            {
-                conninfo.Text = "系统";
-            }
+            string FastbootDevices = await ADBHelper.Fastboot("devices");
+            string adbcheckstring = await ADBHelper.ADB("devices");
+            if (FastbootDevices != "") conninfo.Text = "Fastboot";
+            else conninfo.Text = "未连接";
+
+            int adbcheck = adbcheckstring.IndexOf("recovery");
+            if (adbcheck != -1) conninfo.Text = "Recovery";
+            int adbcheck2 = adbcheckstring.IndexOf("sideload");
+            if (adbcheck2 != -1) conninfo.Text = "Sideload";
+            int adbcheck3 = adbcheckstring.IndexOf("	device");
+            if (adbcheck3 != -1) conninfo.Text = "系统";
             int check9008 = Mindows.Devcon("find usb*").IndexOf("QDLoader");
-            if (check9008 != -1)
-            {
-                conninfo.Text = "9008";
-            }
+            if (check9008 != -1) conninfo.Text = "9008";
             int check901d = Mindows.Devcon("find usb*").IndexOf("901D (");
-            if (check901d != -1)
-            {
-                conninfo.Text = "901D";
-            }
+            if (check901d != -1) conninfo.Text = "901D";
             int check900e = Mindows.Devcon("find usb*").IndexOf("900E");
-            if (check900e != -1)
-            {
-                conninfo.Text = "900E";
-            }
+            if (check900e != -1) conninfo.Text = "900E";
             int check9091 = Mindows.Devcon("find usb*").IndexOf("9091 (");
-            if (check9091 != -1)
-            {
-                conninfo.Text = "9091";
-            }
+            if (check9091 != -1) conninfo.Text = "9091";
+
             if (conninfo.Text == "Fastboot")
             {
-                int unlocked = ADBHelper.Fastboot("getvar unlocked").IndexOf("yes");
+                string unlockedstring = await ADBHelper.Fastboot("getvar unlocked");
+                int unlocked = unlockedstring.IndexOf("yes");
                 if (unlocked != -1)
                 {
                     BLinfo.Text = "已解锁";
                 }
-                int locked = ADBHelper.Fastboot("getvar unlocked").IndexOf("no");
+                int locked = unlockedstring.IndexOf("no");
                 if (locked != -1)
                 {
                     BLinfo.Text = "未解锁";
-                    //Dialog_Display("您的设备未解锁BootLoader！\n\r大部分功能将无法使用！");
-                    ShowDialog("您的设备未解锁BootLoader！\n\r大部分功能将无法使用！");
+                    _ = ShowDialog("您的设备未解锁BootLoader！\n\r大部分功能将无法使用！");
                 }
-                string productinfos = ADBHelper.Fastboot("getvar product");
+                string productinfos = await ADBHelper.Fastboot("getvar product");
                 string product = Mindows.GetProductID(productinfos);
                 if (product != null)
                 {
                     productinfo.Text = product;
                 }
-                string active = ADBHelper.Fastboot("getvar current-slot");
+                string active = await ADBHelper.Fastboot("getvar current-slot");
                 if (active.IndexOf("current-slot: a") != -1)
                 {
                     VABinfo.Text = "A槽位";
@@ -198,22 +159,27 @@ namespace Toolbox
         // 检查链接按钮
         private void CheckconnClick(object sender, RoutedEventArgs e)
         {
-            Checkcon();
+            CheckconAsync();
         }
 
         // 侧边导航点击切换
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var selectedItem = (NavigationViewItem)args.SelectedItem;
-            if ((string)selectedItem.Tag == "Bootloader_Driver")
+            if ((string)selectedItem.Tag == "BootloaderDriver")
             {
                 var parent = new BootloaderDriverParameter { Parent = this };
-                ContentFrame.Navigate(typeof(Bootloader_Driver), parent);
+                ContentFrame.Navigate(typeof(BootloaderDriver), parent);
             }
             else if ((string)selectedItem.Tag == "Rec_Reboot")
             {
                 var parent = new RecRebootParameter { Parent = this };
                 ContentFrame.Navigate(typeof(Rec_Reboot), parent);
+            }
+            else if ((string)selectedItem.Tag == "FlashRom")
+            {
+                var parent = new FlashRomParameter { Parent = this };
+                ContentFrame.Navigate(typeof(FlashRom), parent);
             }
             else if ((string)selectedItem.Tag == "Setting")
             {

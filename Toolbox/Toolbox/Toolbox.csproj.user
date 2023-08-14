@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="FlashRom.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ContentDialogContent.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -17,7 +20,7 @@
     <Page Update="Rec_Reboot.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Bootloader_Driver.xaml">
+    <Page Update="BootloaderDriver.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

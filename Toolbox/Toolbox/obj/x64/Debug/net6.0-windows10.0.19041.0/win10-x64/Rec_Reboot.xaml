@@ -14,7 +14,7 @@
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
                 <Button x:ConnectionId='14' x:Name="PickRecFile" Content="选择Recovery"                          Margin="0,10,10,10"/>
                 <TextBox x:ConnectionId='15' x:Name="PickRecFileOutputTextBlock" TextWrapping="Wrap" Margin="0,10,10,10"
-                         IsReadOnly="True" IsHitTestVisible="False" PlaceholderText="请选择文件" MinWidth="150"/>
+                         IsReadOnly="True" IsHitTestVisible="False" PlaceholderText="请选择文件" MinWidth="150" FontStyle="Italic"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
                 <Button x:ConnectionId='11' x:Name="FlashRec" Content="刷入至Recovery"                       Margin="0,10,10,10"/>

@@ -1,47 +1,54 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Toolbox
 {
     public class ADBHelper
     {
-        public static string ADB(string adb)
+        public static async Task<string> ADB(string adb)
         {
-            string cmd = @"lib\adb.exe";
-            ProcessStartInfo adbshell = null;
-            adbshell = new ProcessStartInfo(cmd, adb);
-            adbshell.CreateNoWindow = true;
-            adbshell.UseShellExecute = false;
-            adbshell.RedirectStandardOutput = true;
-            adbshell.RedirectStandardError = true;
-            Process a = Process.Start(adbshell);
-            StreamReader reader = a.StandardOutput;
-            StreamReader readererror = a.StandardError;
-            string output = reader.ReadToEnd();
-            if (output == "")
+            string adbPath = @"lib\adb.exe";
+            string output = "";
+            using (Process process = new())
             {
-                output = readererror.ReadToEnd();
+                ProcessStartInfo startInfo = new()
+                {
+                    FileName = adbPath,
+                    Arguments = adb,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                process.StartInfo = startInfo;
+                process.Start();
+                output = await process.StandardOutput.ReadToEndAsync();
+                string errorOutput = await process.StandardError.ReadToEndAsync();
+                if (string.IsNullOrEmpty(output)) output = errorOutput;
+                process.WaitForExit();
             }
-            a.Close();
             return output;
         }
 
-        public static string Fastboot(string fb)
+
+        public static async Task<string> Fastboot(string fb)
         {
             string cmd = @"lib\fastboot.exe";
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
+            ProcessStartInfo fastboot = new(cmd, fb)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
             Process f = Process.Start(fastboot);
             StreamReader readererror = f.StandardError;
             StreamReader reader = f.StandardOutput;
-            string output = readererror.ReadToEnd();
+            string output = await readererror.ReadToEndAsync();
             if (output == "")
             {
-                output = reader.ReadToEnd();
+                output = await reader.ReadToEndAsync();
             }
             f.Close();
             return output;

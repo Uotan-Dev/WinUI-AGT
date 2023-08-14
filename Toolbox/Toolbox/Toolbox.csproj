@@ -15,9 +15,28 @@
 	<PackageCertificateKeyFile>Toolbox_TemporaryKey.pfx</PackageCertificateKeyFile>
 	<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <NoWarn>SYSLIB0011, SYSLIB0011</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
-    <None Remove="Bootloader_Driver.xaml" />
+    <None Remove="BootloaderDriver.xaml" />
     <None Remove="ContentDialogContent.xaml" />
+    <None Remove="FlashRom.xaml" />
     <None Remove="Images\LargeTile.scale-100.png" />
     <None Remove="Images\LargeTile.scale-125.png" />
     <None Remove="Images\LargeTile.scale-150.png" />
@@ -142,6 +161,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="FlashRom.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ContentDialogContent.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,7 +183,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Bootloader_Driver.xaml">
+    <Page Update="BootloaderDriver.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

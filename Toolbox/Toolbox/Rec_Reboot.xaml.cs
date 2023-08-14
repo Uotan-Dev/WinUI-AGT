@@ -21,7 +21,7 @@ namespace Toolbox
 {
     public sealed partial class Rec_Reboot : Page
     {
-        public MainWindow parent { get; set; }
+        public new MainWindow Parent { get; set; }
 
         public class RecRebootParameter
         {
@@ -34,11 +34,11 @@ namespace Toolbox
 
             if (e.Parameter is RecRebootParameter parameter)
             {
-                parent = parameter.Parent;
+                Parent = parameter.Parent;
             }
         }
 
-        private List<Button> buttons;
+        private readonly List<Button> buttons;
 
         public Rec_Reboot()
         {
@@ -74,8 +74,8 @@ namespace Toolbox
         // FlashRecClick
         private async void FlashRecCore(string mode)
         {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Fastboot")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
             {
                 if (PickRecFileOutputTextBlock.Text != "")
                 {
@@ -83,46 +83,48 @@ namespace Toolbox
                     string file = PickRecFileOutputTextBlock.Text;
                     string shell_command = "flash " + mode + " {0}";
                     string shell = string.Format(shell_command, file);
-                    int sf = ADBHelper.Fastboot(shell).IndexOf("FAILED");
-                    int sf1 = ADBHelper.Fastboot(shell).IndexOf("error");
+                    string sfstring = await ADBHelper.Fastboot(shell);
+                    int sf = sfstring.Contains("FAILED") ? sfstring.IndexOf("FAILED") : -1;
+                    int sf1 = sfstring.Contains("error") ? sfstring.IndexOf("error") : -1;
                     if (sf == -1 && sf1 == -1)
                     {
-                        bool result = await parent.ShowDialogYesOrNo("刷入成功！是否重启到Recovery？");
+                        bool result = await Parent.ShowDialogYesOrNo("刷入成功！是否重启到Recovery？");
                         if (result == true)
                         {
-                            string output = ADBHelper.Fastboot("oem reboot-recovery");
+                            string output = await ADBHelper.Fastboot("oem reboot-recovery");
                             if (output.IndexOf("unknown command") != -1)
                             {
-                                ADBHelper.Fastboot("reboot recovery");
+                                _ = ADBHelper.Fastboot("reboot recovery");
                             }
                         }
                     }
-                    else parent.ShowDialog("刷入失败！");
+                    else _ = Parent.ShowDialog("刷入失败！");
                     EnableAllButtons();
                 }
-                else parent.ShowDialog("请选择Recovery文件！");
+                else _ = Parent.ShowDialog("请选择Recovery文件！");
             }
-            else parent.ShowDialog("请进入Fastboot模式！");
+            else _ = Parent.ShowDialog("请进入Fastboot模式！");
         }
 
-        private void BootImgClick(object sender, RoutedEventArgs e)
+        private async void BootImgClick(object sender, RoutedEventArgs e)
         {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Fastboot")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
             {
                 if (PickRecFileOutputTextBlock.Text != "")
                 {
                     DisableAllButtons();
                     string file = PickRecFileOutputTextBlock.Text;
                     string shell = string.Format("boot {0}", file);
-                    int sf = ADBHelper.Fastboot(shell).IndexOf("Finished");
-                    if (sf != -1) parent.ShowDialog("启动成功！");
-                    else parent.ShowDialog("启动失败！");
+                    string sfstring = await ADBHelper.Fastboot(shell);
+                    int sf = sfstring.IndexOf("Finished");
+                    if (sf != -1) _ = Parent.ShowDialog("启动成功！");
+                    else _ = Parent.ShowDialog("启动失败！");
                     EnableAllButtons();
                 }
-                else parent.ShowDialog("请选择镜像文件！");
+                else _ = Parent.ShowDialog("请选择镜像文件！");
             }
-            else parent.ShowDialog("请进入Fastboot模式！");
+            else _ = Parent.ShowDialog("请进入Fastboot模式！");
         }
 
         private void FlashRecClick(object sender, RoutedEventArgs e) { FlashRecCore("recovery"); }
@@ -132,81 +134,81 @@ namespace Toolbox
         private void FlashBootBClick(object sender, RoutedEventArgs e) { FlashRecCore("boot_b"); }
 
         private void DisableOffRecClick(object sender, RoutedEventArgs e) {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Recovery")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Recovery")
             {
                 DisableAllButtons();
                 string shell = "push lib/DisableAutoRecovery.zip /tmp/";
                 string shell2 = "shell twrp install /tmp/DisableAutoRecovery.zip";
-                ADBHelper.ADB(shell);
-                ADBHelper.ADB(shell2);
-                parent.ShowDialog("执行完成！");
+                _ = ADBHelper.ADB(shell);
+                _ = ADBHelper.ADB(shell2);
+                _ = Parent.ShowDialog("执行完成！");
                 EnableAllButtons();
             }
-            else parent.ShowDialog("请将设备进入Recovery模式后执行！");
+            else _ = Parent.ShowDialog("请将设备进入Recovery模式后执行！");
         }
         private void FlashMagiskClick(object sender, RoutedEventArgs e)
         {
-            parent.Checkcon();
-            if (parent.ConnInfoText == "Recovery")
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Recovery")
             {
                 DisableAllButtons();
                 string shell = "push lib/Magisk-v25.2.zip /tmp/";
                 string shell2 = "shell twrp install /tmp/Magisk-v25.2.zip";
-                ADBHelper.ADB(shell);
-                ADBHelper.ADB(shell2);
-                parent.ShowDialog("执行完成！");
+                _ = ADBHelper.ADB(shell);
+                _ = ADBHelper.ADB(shell2);
+                _ = Parent.ShowDialog("执行完成！");
                 EnableAllButtons();
             }
-            else parent.ShowDialog("请将设备进入Recovery模式后执行！");
+            else _ = Parent.ShowDialog("请将设备进入Recovery模式后执行！");
         }
 
-        private void FastbootRebootClick(object sender, RoutedEventArgs e)
+        private async void FastbootRebootClick(object sender, RoutedEventArgs e)
         {
             if (FastbootRebootMode.SelectedIndex != -1)
             {
-                parent.Checkcon();
-                if (parent.ConnInfoText == "Fastboot")
+                Parent.CheckconAsync();
+                if (Parent.ConnInfoText == "Fastboot")
                 {
                     string mode = FastbootRebootMode.Text;
                     if (mode == "Recovery")
                     {
-                        string output = ADBHelper.Fastboot("oem reboot-recovery");
-                        if (output.IndexOf("unknown command") != -1) ADBHelper.Fastboot("reboot recovery");
+                        string output = await ADBHelper.Fastboot("oem reboot-recovery");
+                        if (output.IndexOf("unknown command") != -1) _ = ADBHelper.Fastboot("reboot recovery");
                     }
-                    else if (mode == "系统") ADBHelper.Fastboot("reboot");
-                    else if (mode == "9008") ADBHelper.Fastboot("oem edl");
-                    else if (mode == "Fastbootd") ADBHelper.Fastboot("reboot-fastboot");
-                    else if (mode == "Bootloader") ADBHelper.Fastboot("reboot-bootloader");
+                    else if (mode == "系统") _ = ADBHelper.Fastboot("reboot");
+                    else if (mode == "9008") _ = ADBHelper.Fastboot("oem edl");
+                    else if (mode == "Fastbootd") _ = ADBHelper.Fastboot("reboot-fastboot");
+                    else if (mode == "Bootloader") _ = ADBHelper.Fastboot("reboot-bootloader");
 
-                    parent.ShowDialog("执行完成，请查看您的设备！");
+                    _ = Parent.ShowDialog("执行完成，请查看您的设备！");
                 }
-                else parent.ShowDialog("请进入Fastboot模式！");
+                else _ = Parent.ShowDialog("请进入Fastboot模式！");
             }
-            else parent.ShowDialog("请选择重启选项！");
+            else _ = Parent.ShowDialog("请选择重启选项！");
         }
 
         private void AdbRebootClick(object sender, RoutedEventArgs e)
         {
             if (AdbRebootMode.SelectedIndex != -1)
             {
-                parent.Checkcon();
-                if (parent.ConnInfoText == "Fastboot")
+                Parent.CheckconAsync();
+                if (Parent.ConnInfoText == "Fastboot")
                 {
                     string mode = AdbRebootMode.Text;
-                    if (mode == "Recovery") ADBHelper.ADB("reboot recovery");
-                    else if (mode == "系统") ADBHelper.ADB("reboot");
-                    else if (mode == "9008") ADBHelper.ADB("reboot edl");
-                    else if (mode == "Fastbootd") ADBHelper.ADB("reboot fastboot");
-                    else if (mode == "Bootloader") ADBHelper.ADB("reboot bootloader");
-                    else if (mode == "Sideload") ADBHelper.ADB("reboot sideload");
-                    else if (mode == "TWRP重启至Sideload") ADBHelper.ADB("shell twrp sideload");
+                    if (mode == "Recovery") _ = ADBHelper.ADB("reboot recovery");
+                    else if (mode == "系统") _ = ADBHelper.ADB("reboot");
+                    else if (mode == "9008") _ = ADBHelper.ADB("reboot edl");
+                    else if (mode == "Fastbootd") _ = ADBHelper.ADB("reboot fastboot");
+                    else if (mode == "Bootloader") _ = ADBHelper.ADB("reboot bootloader");
+                    else if (mode == "Sideload") _ = ADBHelper.ADB("reboot sideload");
+                    else if (mode == "TWRP重启至Sideload") _ = ADBHelper.ADB("shell twrp sideload");
 
-                    parent.ShowDialog("执行完成，请查看您的设备！");
+                    _ = Parent.ShowDialog("执行完成，请查看您的设备！");
                 }
-                else parent.ShowDialog("请进入Fastboot模式！");
+                else _ = Parent.ShowDialog("请进入Fastboot模式！");
             }
-            else parent.ShowDialog("请选择重启选项！");
+            else _ = Parent.ShowDialog("请选择重启选项！");
         }
     }
 }

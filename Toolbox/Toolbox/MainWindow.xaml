@@ -3,7 +3,6 @@
     x:Class="Toolbox.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Toolbox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -54,8 +53,9 @@
                     <AutoSuggestBox x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find" QuerySubmitted="QuerySubmitted" SuggestionChosen="SuggestionChosen"/>
                 </NavigationView.AutoSuggestBox>
                 <NavigationView.MenuItems>
-                    <NavigationViewItem Icon="Play" Content="BL锁及驱动" Tag="Bootloader_Driver" Name="BLDriverMenuItem"/>
+                    <NavigationViewItem Icon="Play" Content="BL锁及驱动" Tag="BootloaderDriver" Name="BLDriverMenuItem"/>
                     <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
+                    <NavigationViewItem Icon="Repair" Content="线刷ROM" Tag="FlashRom" Name="FlashRomMenuItem"/>
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
                     <NavigationViewItem Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
