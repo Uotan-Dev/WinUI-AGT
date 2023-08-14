@@ -702,3 +702,5 @@ C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\obj\x64\Debu
 C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\lib\adb_driver.exe
+C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\lib\Qualcomm_Usb_Driver.exe

@@ -19,15 +19,12 @@ using System.Threading;
 using Windows.Foundation.Metadata;
 using static Toolbox.Bootloader_Driver;
 using System.Threading.Tasks;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using static Toolbox.Rec_Reboot;
 
 namespace Toolbox
 {
     public sealed partial class MainWindow : Window
     {
-        // 定义主窗口
         public MainWindow()
         {
             this.InitializeComponent();
@@ -61,7 +58,7 @@ namespace Toolbox
             _ = await dialog.ShowAsync();
         }
 
-        // 定义一个返回布尔值的消息弹窗
+        // 返回布尔值的消息弹窗
         public async Task<bool> ShowDialogYesOrNo(string content)
         {
             ContentDialog dialog = new()
@@ -85,7 +82,6 @@ namespace Toolbox
                 return false;
             }
         }
-
 
         // 搜索框后端
         private void SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -216,7 +212,8 @@ namespace Toolbox
             }
             else if ((string)selectedItem.Tag == "Rec_Reboot")
             {
-                ContentFrame.Navigate(typeof(Rec_Reboot));
+                var parent = new RecRebootParameter { Parent = this };
+                ContentFrame.Navigate(typeof(Rec_Reboot), parent);
             }
             else if ((string)selectedItem.Tag == "Setting")
             {

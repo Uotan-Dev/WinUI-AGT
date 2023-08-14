@@ -654,6 +654,7 @@ namespace Toolbox.Toolbox_XamlTypeInfo
             case 40:   //  Toolbox.Rec_Reboot
                 userType = new global::Toolbox.Toolbox_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
                 userType.Activator = Activate_40_Rec_Reboot;
+                userType.AddMemberName("parent");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -1238,6 +1239,16 @@ namespace Toolbox.Toolbox_XamlTypeInfo
             var that = (global::Toolbox.MainWindow)instance;
             that.ConnInfoText = (global::System.String)Value;
         }
+        private object get_55_Rec_Reboot_parent(object instance)
+        {
+            var that = (global::Toolbox.Rec_Reboot)instance;
+            return that.parent;
+        }
+        private void set_55_Rec_Reboot_parent(object instance, object Value)
+        {
+            var that = (global::Toolbox.Rec_Reboot)instance;
+            that.parent = (global::Toolbox.MainWindow)Value;
+        }
 
         private global::Microsoft.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
@@ -1624,6 +1635,12 @@ namespace Toolbox.Toolbox_XamlTypeInfo
                 xamlMember = new global::Toolbox.Toolbox_XamlTypeInfo.XamlMember(this, "ConnInfoText", "String");
                 xamlMember.Getter = get_54_MainWindow_ConnInfoText;
                 xamlMember.Setter = set_54_MainWindow_ConnInfoText;
+                break;
+            case "Toolbox.Rec_Reboot.parent":
+                userType = (global::Toolbox.Toolbox_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Toolbox.Rec_Reboot");
+                xamlMember = new global::Toolbox.Toolbox_XamlTypeInfo.XamlMember(this, "parent", "Toolbox.MainWindow");
+                xamlMember.Getter = get_55_Rec_Reboot_parent;
+                xamlMember.Setter = set_55_Rec_Reboot_parent;
                 break;
             }
             return xamlMember;

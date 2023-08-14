@@ -39,15 +39,15 @@
             <NavigationView x:ConnectionId='3' x:Name="NavigationViewControl" IsTitleBarAutoPaddingEnabled="False"                                                                                                        PaneDisplayMode="Auto"  PaneTitle="Android 极客工具箱" IsSettingsVisible="False">
                 <NavigationView.Header>
                     <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                        <TextBlock Text="设备状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                        <TextBlock x:ConnectionId='4' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="conninfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock Text="设备状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        <TextBlock x:ConnectionId='4' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="conninfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
                         <TextBlock Text="BL锁状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                        <TextBlock x:ConnectionId='5' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="BLinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock x:ConnectionId='5' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="BLinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
                         <TextBlock Text="VAB状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                        <TextBlock x:ConnectionId='6' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="VABinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                        <TextBlock x:ConnectionId='6' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="VABinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
                         <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                        <TextBlock x:ConnectionId='7' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                        <Button x:ConnectionId='8' x:Name="checkconn" Content="检查连接状态"                        Margin="15,0,0,0"></Button>
+                        <TextBlock x:ConnectionId='7' Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        <Button x:ConnectionId='8' x:Name="checkconn" Content="检查连接"                        Margin="15,0,0,0"></Button>
                     </StackPanel>
                 </NavigationView.Header>
                 <NavigationView.AutoSuggestBox>

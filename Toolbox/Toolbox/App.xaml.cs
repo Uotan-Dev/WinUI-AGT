@@ -37,7 +37,6 @@ namespace Toolbox
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
             return AppWindow.GetFromWindowId(windowId);
         }
-        public static Window? m_window { get; private set; }
-
+        public static Window m_window { get; private set; }
     }
 }

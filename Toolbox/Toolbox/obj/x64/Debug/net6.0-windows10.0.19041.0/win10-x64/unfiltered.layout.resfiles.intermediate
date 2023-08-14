@@ -53,6 +53,7 @@ Images\Wide310x150Logo.scale-400.png
 lib\7z.dll
 lib\7z.exe
 lib\adb.exe
+lib\adb_driver.exe
 lib\AdbWinApi.dll
 lib\AdbWinUsbApi.dll
 lib\bcdboot.exe
@@ -87,6 +88,7 @@ lib\parted
 lib\QCNTool.exe
 lib\QMSL_MSVC10R.dll
 lib\QSaharaServer.exe
+lib\Qualcomm_Usb_Driver.exe
 lib\sgdisk
 lib\source.properties
 lib\sqlite3.exe

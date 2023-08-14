@@ -4,8 +4,6 @@ namespace Toolbox
 {
     public sealed partial class ContentDialogContent : Page
     {
-        private string _content;
-
         public ContentDialogContent()
         {
             this.InitializeComponent();
