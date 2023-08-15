@@ -25,6 +25,7 @@ namespace Toolbox
             // 创建一个临时对象来传递母窗口
             var parent = new BootloaderDriverParameter { Parent = this };
             ContentFrame.Navigate(typeof(BootloaderDriver), parent);
+            CheckconAsync();
         }
         public string GetAppTitleFromSystem()
         {

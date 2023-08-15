@@ -159,7 +159,7 @@ namespace Toolbox
                 Parent.CheckconAsync();
                 if (Parent.ConnInfoText == "Fastboot")
                 {
-                    string mode = FastbootRebootMode.Text;
+                    string mode = (FastbootRebootMode.SelectedValue as ComboBoxItem)?.Content.ToString();
                     if (mode == "Recovery")
                     {
                         string output = await ADBHelper.Fastboot("oem reboot-recovery");
@@ -182,20 +182,16 @@ namespace Toolbox
             if (AdbRebootMode.SelectedIndex != -1)
             {
                 Parent.CheckconAsync();
-                if (Parent.ConnInfoText == "Fastboot")
-                {
-                    string mode = AdbRebootMode.Text;
-                    if (mode == "Recovery") _ = ADBHelper.ADB("reboot recovery");
-                    else if (mode == "系统") _ = ADBHelper.ADB("reboot");
-                    else if (mode == "9008") _ = ADBHelper.ADB("reboot edl");
-                    else if (mode == "Fastbootd") _ = ADBHelper.ADB("reboot fastboot");
-                    else if (mode == "Bootloader") _ = ADBHelper.ADB("reboot bootloader");
-                    else if (mode == "Sideload") _ = ADBHelper.ADB("reboot sideload");
-                    else if (mode == "TWRP重启至Sideload") _ = ADBHelper.ADB("shell twrp sideload");
+                string mode = (AdbRebootMode.SelectedValue as ComboBoxItem)?.Content.ToString();
+                if (mode == "Recovery") _ = ADBHelper.ADB("reboot recovery");
+                else if (mode == "系统") _ = ADBHelper.ADB("reboot");
+                else if (mode == "9008") _ = ADBHelper.ADB("reboot edl");
+                else if (mode == "Fastbootd") _ = ADBHelper.ADB("reboot fastboot");
+                else if (mode == "Bootloader") _ = ADBHelper.ADB("reboot bootloader");
+                else if (mode == "Sideload") _ = ADBHelper.ADB("reboot sideload");
+                else if (mode == "TWRP重启至Sideload") _ = ADBHelper.ADB("shell twrp sideload");
 
-                    _ = Parent.ShowDialog("执行完成，请查看您的设备！");
-                }
-                else _ = Parent.ShowDialog("请进入Fastboot模式！");
+                _ = Parent.ShowDialog("执行完成，请查看您的设备！");
             }
             else _ = Parent.ShowDialog("请选择重启选项！");
         }

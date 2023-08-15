@@ -1,1 +1,0 @@
-C:\Users\yuzh0\Documents\GitHub\WinUI-AGT\WinUI-AGT\Toolbox\Toolbox\Toolbox.csproj;x64

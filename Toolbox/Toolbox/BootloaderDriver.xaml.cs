@@ -100,7 +100,7 @@ namespace Toolbox
                     bool result = await Parent.ShowDialogYesOrNo("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
                     if (result == true)
                     {
-                        string shell = UnlockShell.Text;
+                        string shell = (UnlockShell.SelectedValue as ComboBoxItem)?.Content.ToString();
                         _ = ADBHelper.Fastboot(shell);
                         _ = Parent.ShowDialog("执行完成，请查看您的设备！");
                     }
