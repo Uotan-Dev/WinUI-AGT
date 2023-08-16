@@ -89,6 +89,7 @@
     <None Remove="Images\Wide310x150Logo.scale-150.png" />
     <None Remove="Images\Wide310x150Logo.scale-200.png" />
     <None Remove="Images\Wide310x150Logo.scale-400.png" />
+    <None Remove="MoreFlash.xaml" />
     <None Remove="Rec_Reboot.xaml" />
     <None Remove="SettingsPage.xaml" />
   </ItemGroup>
@@ -161,6 +162,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="MoreFlash.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="FlashRom.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -191,5 +196,9 @@
   <ItemGroup>
     <Folder Include="lib\" />
     <Folder Include="unlock\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 </Project>

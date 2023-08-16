@@ -10,6 +10,7 @@ using static Toolbox.BootloaderDriver;
 using static Toolbox.Rec_Reboot;
 using static Toolbox.FlashRom;
 using Windows.ApplicationModel.Activation;
+using static Toolbox.MoreFlash;
 
 namespace Toolbox
 {
@@ -181,6 +182,11 @@ namespace Toolbox
             {
                 var parent = new FlashRomParameter { Parent = this };
                 ContentFrame.Navigate(typeof(FlashRom), parent);
+            }
+            else if ((string)selectedItem.Tag == "MoreFlash")
+            {
+                var parent = new MoreFlashParameter { Parent = this };
+                ContentFrame.Navigate(typeof(MoreFlash), parent);
             }
             else if ((string)selectedItem.Tag == "Setting")
             {

@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="MoreFlash.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="FlashRom.xaml">
       <SubType>Designer</SubType>
     </Page>
