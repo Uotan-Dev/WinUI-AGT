@@ -91,6 +91,8 @@ namespace Toolbox
         // 检查连接函数 - 全局
         public async void CheckconAsync()
         {
+            LoadingBar.Visibility = Visibility.Visible;
+            LoadingBar.IsIndeterminate = true;
             string FastbootDevices = await ADBHelper.Fastboot("devices");
             string adbcheckstring = await ADBHelper.ADB("devices");
             if (FastbootDevices != "") conninfo.Text = "Fastboot";
@@ -151,6 +153,8 @@ namespace Toolbox
                 VABinfo.Text = "未知";
                 productinfo.Text = "未知";
             }
+            LoadingBar.IsIndeterminate = false;
+            LoadingBar.Visibility = Visibility.Collapsed;
         }
         public string ConnInfoText
         {

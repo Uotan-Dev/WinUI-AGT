@@ -16,13 +16,13 @@ namespace Toolbox
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.SizeChanged += SizeChanged;
-            appWindow = GetAppWindow(m_window); //Set ExtendsContentIntoTitleBar for the AppWindow not the window
+            Window = new MainWindow();
+            Window.SizeChanged += SizeChanged;
+            appWindow = GetAppWindow(Window); //Set ExtendsContentIntoTitleBar for the AppWindow not the window
             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            m_window.Activate();
+            Window.Activate();
         }
         private void SizeChanged(object sender, WindowSizeChangedEventArgs args)
         {
@@ -37,6 +37,6 @@ namespace Toolbox
             WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
             return AppWindow.GetFromWindowId(windowId);
         }
-        public static Window m_window { get; private set; }
+        public static Window Window { get; private set; }
     }
 }

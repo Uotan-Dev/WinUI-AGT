@@ -40,7 +40,7 @@ namespace Toolbox
         {
             PickUnlockFileOutputTextBlock.Text = "";
             var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            nint windowHandle = WindowNative.GetWindowHandle(App.m_window);
+            nint windowHandle = WindowNative.GetWindowHandle(App.Window);
             InitializeWithWindow.Initialize(openPicker, windowHandle);
 
             openPicker.ViewMode = PickerViewMode.Thumbnail;
