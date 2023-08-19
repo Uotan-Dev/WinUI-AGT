@@ -183,8 +183,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickAdbSideloadFileOutput.Text = "已选择 " + file.Name;
-            else PickAdbSideloadFileOutput.Text = "操作已取消";
+            if (file != null) PickAdbSideloadFileOutput.Text = file.Path;
+            else PickAdbSideloadFileOutput.PlaceholderText = "操作已取消";
         }
 
         private async void PickElfFileClick(object sender, RoutedEventArgs e)
@@ -198,8 +198,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickElfFileOutput.Text = "已选择 " + file.Name;
-            else PickElfFileOutput.Text = "操作已取消";
+            if (file != null) PickElfFileOutput.Text = file.Path;
+            else PickElfFileOutput.PlaceholderText = "操作已取消";
         }
 
         private async void PickXmlFileClick(object sender, RoutedEventArgs e)
@@ -213,8 +213,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickXmlFileOutput.Text = "已选择 " + file.Name;
-            else PickXmlFileOutput.Text = "操作已取消";
+            if (file != null) PickXmlFileOutput.Text = file.Path;
+            else PickXmlFileOutput.PlaceholderText = "操作已取消";
         }
 
         private void FlashAdbSideloadClick(object sender, RoutedEventArgs e)

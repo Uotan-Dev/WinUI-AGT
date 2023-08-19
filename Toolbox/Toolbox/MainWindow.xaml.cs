@@ -11,6 +11,7 @@ using static Toolbox.Rec_Reboot;
 using static Toolbox.FlashRom;
 using Windows.ApplicationModel.Activation;
 using static Toolbox.MoreFlash;
+using static Toolbox.MindowsTool;
 
 namespace Toolbox
 {
@@ -161,6 +162,11 @@ namespace Toolbox
             get { return conninfo.Text; }
             set { conninfo.Text = value; }
         }
+        public ProgressBar LoadingBarArgs
+        {
+            get { return LoadingBar; }
+            set { LoadingBar = value; }
+        }
 
         // ºÏ≤È¡¥Ω”∞¥≈•
         private void CheckconnClick(object sender, RoutedEventArgs e)
@@ -191,6 +197,11 @@ namespace Toolbox
             {
                 var parent = new MoreFlashParameter { Parent = this };
                 ContentFrame.Navigate(typeof(MoreFlash), parent);
+            }
+            else if ((string)selectedItem.Tag == "MindowsTool")
+            {
+                var parent = new MindowsToolParameter { Parent = this };
+                ContentFrame.Navigate(typeof(MindowsTool), parent);
             }
             else if ((string)selectedItem.Tag == "Setting")
             {

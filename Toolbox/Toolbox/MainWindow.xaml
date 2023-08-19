@@ -25,7 +25,7 @@
                         Height="16"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Source="/Assets/Square44x44Logo.png" />
+                        Source="/Images/Square44x44Logo.scale-100.png" />
                 <TextBlock
                         Margin="12,0,0,0"
                         Grid.Column="1"
@@ -49,6 +49,7 @@
                             <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
                             <Button x:Name="checkconn" Content="检查连接" Click="CheckconnClick" Margin="15,0,0,0"></Button>
                         </StackPanel>
+                        <InfoBar x:Name="LoadingTip" IsOpen="False" Severity="Warning" Title="操作中"/>
                         <ProgressBar x:Name="LoadingBar" Width="auto" IsIndeterminate="False" ShowPaused="False" ShowError="False" Margin="0,0,0,-15"/>
                     </StackPanel>
                 </NavigationView.Header>
@@ -60,6 +61,7 @@
                     <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
                     <NavigationViewItem Icon="Repair" Content="线刷ROM" Tag="FlashRom" Name="FlashRomMenuItem"/>
                     <NavigationViewItem Icon="More" Content="更多线刷" Tag="MoreFlash" Name="MoreFlashMenuItem"/>
+                    <NavigationViewItem Icon="Keyboard" Content="Mindows工具箱" Tag="MindowsTool" Name="MindowsToolMenuItem"/>
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
                     <NavigationViewItem Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>

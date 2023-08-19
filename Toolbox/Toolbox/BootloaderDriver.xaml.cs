@@ -35,7 +35,7 @@ namespace Toolbox
             this.InitializeComponent();
         }
 
-        // Bootloader文件选择器
+        // 文件选择器
         private async void PickUnlockFileClick(object sender, RoutedEventArgs e)
         {
             PickUnlockFileOutputTextBlock.Text = "";
@@ -47,8 +47,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickUnlockFileOutputTextBlock.Text = "已选择 " + file.Name;
-            else PickUnlockFileOutputTextBlock.Text = "操作已取消";
+            if (file != null) PickUnlockFileOutputTextBlock.Text = file.Path;
+            else PickUnlockFileOutputTextBlock.PlaceholderText = "操作已取消";
         }
 
         // Bootloader解锁按钮

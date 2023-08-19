@@ -125,8 +125,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickFastbootFileOutput.Text = "已选择 " + file.Name;
-            else PickFastbootFileOutput.Text = "操作已取消";
+            if (file != null) PickFastbootFileOutput.Text = file.Path;
+            else PickFastbootFileOutput.PlaceholderText = "操作已取消";
         }
 
         private async void PickMiScriptClick(object sender, RoutedEventArgs e)
@@ -140,8 +140,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickMiScriptOutput.Text = "已选择 " + file.Name;
-            else PickMiScriptOutput.Text = "操作已取消";
+            if (file != null) PickMiScriptOutput.Text = file.Path;
+            else PickMiScriptOutput.PlaceholderText = "操作已取消";
         }
 
         private async void PickFastbootdFileClick(object sender, RoutedEventArgs e)
@@ -155,8 +155,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickFastbootdFileOutput.Text = "已选择 " + file.Name;
-            else PickFastbootdFileOutput.Text = "操作已取消";
+            if (file != null) PickFastbootdFileOutput.Text = file.Path;
+            else PickFastbootdFileOutput.PlaceholderText = "操作已取消";
         }
 
         private void SetAClick(object sender, RoutedEventArgs e)

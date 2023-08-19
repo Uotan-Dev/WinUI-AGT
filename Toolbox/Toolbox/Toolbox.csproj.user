@@ -5,6 +5,27 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="MindowsWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DownloadResource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ChooseIso.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SetWinPart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeviceWarn.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MindowsInstall.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MindowsTool.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MoreFlash.xaml">
       <SubType>Designer</SubType>
     </Page>

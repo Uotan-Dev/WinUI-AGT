@@ -45,7 +45,7 @@ namespace Toolbox
         private async void PickRecFileClick(object sender, RoutedEventArgs e)
         {
             PickRecFileOutputTextBlock.Text = "";
-            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+            var openPicker = new FileOpenPicker();
             nint windowHandle = WindowNative.GetWindowHandle(App.Window);
             InitializeWithWindow.Initialize(openPicker, windowHandle);
 
@@ -53,8 +53,8 @@ namespace Toolbox
             openPicker.FileTypeFilter.Add("*");
 
             var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickRecFileOutputTextBlock.Text = "已选择 " + file.Name;
-            else PickRecFileOutputTextBlock.Text = "操作已取消";
+            if (file != null) PickRecFileOutputTextBlock.Text = file.Path;
+            else PickRecFileOutputTextBlock.PlaceholderText = "操作已取消";
         }
 
         private void DisableAllButtons() { foreach (var button in buttons) button.IsEnabled = false; }
