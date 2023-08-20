@@ -36,22 +36,6 @@ namespace Toolbox
             this.InitializeComponent();
         }
 
-        // 文件选择器
-        /*private async void PickUnlockFileClick(object sender, RoutedEventArgs e)
-        {
-            PickUnlockFileOutputTextBlock.Text = "";
-            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            nint windowHandle = WindowNative.GetWindowHandle(App.Window);
-            InitializeWithWindow.Initialize(openPicker, windowHandle);
-
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.FileTypeFilter.Add("*");
-
-            var file = await openPicker.PickSingleFileAsync();
-            if (file != null) PickUnlockFileOutputTextBlock.Text = file.Path;
-            else PickUnlockFileOutputTextBlock.PlaceholderText = "操作已取消";
-        }*/
-
         // 打开一键安装工具
         private async void OpenMindowsClick(object sender, RoutedEventArgs e)
         {
@@ -208,7 +192,7 @@ namespace Toolbox
                                 }
                                 else
                                 {
-                                    DownloadResource downlaoder = new DownloadResource();
+                                    DownloadResource downlaoder = new();
                                     downlaoder.Activate();
                                 }
                             }
@@ -259,5 +243,147 @@ namespace Toolbox
                 _ = Parent.ShowDialog("未选择机型！");
             }
         }
+
+        private async void FixOobeError(object sender, RoutedEventArgs e)
+        {
+            Setdevice();
+            if (Global.device != "")
+            {
+                if (Mindows.Whoami("").IndexOf("system") != -1)
+                {
+                    bool result = await Parent.ShowDialogYesOrNo("请先将设备进入大容量模式！");
+                    if (result == true)
+                    {
+                        Global.moreability = "oobeerror";
+                        MindowsWidget form = new();
+                        form.Activate();
+                    }
+                }
+                else
+                {
+                    bool result = await Parent.ShowDialogYesOrNo("当前运行权限不够，将自动重启应用并提升权限！");
+                    if (result == true)
+                    {
+                        string shell = string.Format(@"-U:S -P:E -M:S -CurrentDirectory:{0} {1}\Toolbox.exe", exepath, exepath);
+                        Mindows.NSudoLC(shell);
+                    }
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未选择机型！");
+            }
+        }
+
+        private async void ChangeUsbMode(object sender, RoutedEventArgs e)
+        {
+            Setdevice();
+            if (Global.device != "")
+            {
+                bool result = await Parent.ShowDialogYesOrNo("请先将设备进入大容量模式！");
+                if (result == true)
+                {
+                    Global.moreability = "usbmode";
+                    MindowsWidget form = new MindowsWidget();
+                    form.Activate();
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未选择机型！");
+            }
+        }
+
+        private async void LoadRegister(object sender, RoutedEventArgs e)
+        {
+            string reg = Mindows.Reg(@"unload HKEY_LOCAL_MACHINE\Mindows");
+            if (reg.IndexOf("参数错误") != -1 || reg.IndexOf("parameter is incorrect") != -1)
+            {
+                bool result = await Parent.ShowDialogYesOrNo("未找到挂载的注册表，是否进行挂载？");
+                if (result == true)
+                {
+                    Global.moreability = "loadreg";
+                    MindowsWidget form = new();
+                    form.Activate();
+                }
+            }
+            else if (reg.IndexOf("拒绝访问") != -1 || reg.IndexOf("Access is denied") != -1)
+            {
+                _ = Parent.ShowDialog("权限不足，请重启程序再尝试挂载！");
+            }
+            else if (reg.IndexOf("操作成功完成") != -1 || reg.IndexOf("operation completed successfully") != -1)
+            {
+                _ = Parent.ShowDialog("卸载注册表成功！");
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未知错误，请联系开发：" + reg);
+            }
+        }
+
+
+        // 文件选择器
+        private async void PickUefiFileClick(object sender, RoutedEventArgs e)
+        {
+            PickUefiFileOutputTextBlock.Text = "";
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+            nint windowHandle = WindowNative.GetWindowHandle(App.Window);
+            InitializeWithWindow.Initialize(openPicker, windowHandle);
+
+            openPicker.ViewMode = PickerViewMode.Thumbnail;
+            openPicker.FileTypeFilter.Add("*");
+
+            var file = await openPicker.PickSingleFileAsync();
+            if (file != null) PickUefiFileOutputTextBlock.Text = file.Path;
+            else PickUefiFileOutputTextBlock.PlaceholderText = "操作已取消";
+        }
+
+        // 临时启动
+        private async void BootCore(string mode)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
+            {
+                if (PickUefiFileOutputTextBlock.Text != "")
+                {
+                    BootUefiButton.IsEnabled = false;
+                    FlashUefiBootButton.IsEnabled = false;
+                    FlashUefiBootAButton.IsEnabled = false;
+                    FlashUefiBootBButton.IsEnabled = false;
+                    FlashUefiRecoveryButton.IsEnabled = false;
+                    string file = PickUefiFileOutputTextBlock.Text;
+                    string shell = string.Format(mode, @" {0}", file);
+                    string sfstring = await ADBHelper.Fastboot(shell);
+                    int sf = sfstring.IndexOf("FAILED");
+                    if (sf == -1)
+                    {
+                        _ = Parent.ShowDialog("启动成功！");
+                    }
+                    else
+                    {
+                        _ = Parent.ShowDialog("启动失败！");
+                    }
+                    BootUefiButton.IsEnabled = true;
+                    FlashUefiBootButton.IsEnabled = true;
+                    FlashUefiBootAButton.IsEnabled = true;
+                    FlashUefiBootBButton.IsEnabled = true;
+                    FlashUefiRecoveryButton.IsEnabled = true;
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("请选择UEFI文件！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请进入Fastboot模式！");
+            }
+        }
+
+        private void BootUefiClick(object sender, RoutedEventArgs e) { BootCore(@"boot"); }
+        private void FlashUefiBootClick(object sender, RoutedEventArgs e) { BootCore(@"flash boot"); }
+        private void FlashUefiBootAClick(object sender, RoutedEventArgs e) { BootCore(@"flash boot_a"); }
+        private void FlashUefiBootBClick(object sender, RoutedEventArgs e) { BootCore(@"flash boot_b"); }
+        private void FlashUefiRecoveryClick(object sender, RoutedEventArgs e) { BootCore(@"flash recovery"); }
     }
 }

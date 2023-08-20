@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="DeviceWarn.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MindowsWidget.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -15,9 +18,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SetWinPart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="DeviceWarn.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MindowsInstall.xaml">

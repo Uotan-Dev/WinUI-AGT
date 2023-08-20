@@ -53,13 +53,13 @@
                 <Button Content="选择文件" Click="PickUefiFileClick" Margin="0,10,10,10"/>
                 <TextBox x:Name="PickUefiFileOutputTextBlock" TextWrapping="Wrap" Margin="0,10,10,10"
                  IsReadOnly="True" IsHitTestVisible="False" PlaceholderText="请选择文件" MinWidth="150" FontStyle="Italic"/>
-                <Button Content="临时启动" Click="BootUefiClick" Margin="0,10,10,10"/>
+                <Button x:Name="BootUefiButton" Content="临时启动" Click="BootUefiClick" Margin="0,10,10,10"/>
             </StackPanel>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                <Button Content="刷入UEFI到Boot" Click="FlashUefiBootClick" Margin="0,10,10,10"/>
-                <Button Content="刷入UEFI到Boota" Click="FlashUefiBootAClick" Margin="0,10,0,10"/>
-                <Button Content="刷入UEFI到Bootb" Click="FlashUefiBootBClick" Margin="0,10,0,10"/>
-                <Button Content="刷入UEFI到刷入UEFI到Recovery" Click="FlashUefiRecoveryClick" Margin="0,10,0,10"/>
+                <Button x:Name="FlashUefiBootButton" Content="刷入UEFI到Boot" Click="FlashUefiBootClick" Margin="0,10,10,10"/>
+                <Button x:Name="FlashUefiBootAButton" Content="刷入UEFI到Boota" Click="FlashUefiBootAClick" Margin="0,10,0,10"/>
+                <Button x:Name="FlashUefiBootBButton" Content="刷入UEFI到Bootb" Click="FlashUefiBootBClick" Margin="0,10,0,10"/>
+                <Button x:Name="FlashUefiRecoveryButton" Content="刷入UEFI到刷入UEFI到Recovery" Click="FlashUefiRecoveryClick" Margin="0,10,0,10"/>
             </StackPanel>
         </StackPanel>
         <StackPanel VerticalAlignment="Top" Orientation="Vertical">

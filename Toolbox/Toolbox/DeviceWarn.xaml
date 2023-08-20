@@ -8,7 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-
+    <Grid Name="PageContainer">
+        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+            <TextBlock Text="为Windows分配空间" Style="{StaticResource TitleLargeTextBlockStyle}"/>
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                <TextBlock x:Name="ShowText" Style="{StaticResource BodyTextBlockStyle}"/>
+            </StackPanel>
+            <Button Click="ConfirmClick" Content="我已知晓，继续下载" />
+        </StackPanel>
     </Grid>
 </Window>

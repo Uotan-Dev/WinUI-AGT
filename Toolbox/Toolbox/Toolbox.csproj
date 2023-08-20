@@ -35,7 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="BootloaderDriver.xaml" />
+    <None Remove="ChooseIso.xaml" />
     <None Remove="ContentDialogContent.xaml" />
+    <None Remove="DeviceWarn.xaml" />
+    <None Remove="DownloadResource.xaml" />
     <None Remove="FlashRom.xaml" />
     <None Remove="Images\LargeTile.scale-100.png" />
     <None Remove="Images\LargeTile.scale-125.png" />
@@ -89,10 +92,13 @@
     <None Remove="Images\Wide310x150Logo.scale-150.png" />
     <None Remove="Images\Wide310x150Logo.scale-200.png" />
     <None Remove="Images\Wide310x150Logo.scale-400.png" />
+    <None Remove="MindowsInstall.xaml" />
     <None Remove="MindowsTool.xaml" />
+    <None Remove="MindowsWidget.xaml" />
     <None Remove="MoreFlash.xaml" />
     <None Remove="Rec_Reboot.xaml" />
     <None Remove="SettingsPage.xaml" />
+    <None Remove="SetWinPart.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -205,5 +211,41 @@
 
   <ItemGroup>
     <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MindowsWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DownloadResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ChooseIso.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SetWinPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DeviceWarn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MindowsInstall.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

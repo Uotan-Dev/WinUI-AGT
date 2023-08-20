@@ -43,7 +43,7 @@
                     <TextBlock Text="共享分区可同时在Windows和安卓访问" Style="{StaticResource BodyTextBlockStyle}"/>
                     <TextBlock Text="（安卓需要使用Mindows安卓助手进行挂载）" Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
-                <Button x:Name="ConfirmClick" />
+                <Button Click="ConfirmClick" Content="确定" />
             </StackPanel>
             <TextBlock x:Name="TipsText" Style="{StaticResource BodyTextBlockStyle}"/>
             <Expander IsExpanded="True" Header="终端显示" Width="500">
