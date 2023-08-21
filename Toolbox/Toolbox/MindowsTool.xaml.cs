@@ -8,6 +8,8 @@ using Microsoft.Win32;
 using System.Security.Principal;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Toolbox
 {
@@ -34,6 +36,85 @@ namespace Toolbox
         public MindowsTool()
         {
             this.InitializeComponent();
+        }
+
+        // 下载资源
+
+        private async void MindowsDownloadResource(object sender, RoutedEventArgs e)
+        {
+            Setdevice();
+            Mindows.Disdevice();
+            string mindowspath = String.Format(@"{0}\data\mindows", exepath);
+            if (Directory.Exists(mindowspath))
+            {
+                if (Global.device != "")
+                {
+                    bool stardownload = true;
+                    try
+                    {
+                        File.Delete(@"data\mindows\driver.7z.001");
+                        File.Delete(@"data\mindows\driver.7z.002");
+                        File.Delete(@"data\mindows\driver.7z.003");
+                        File.Delete(@"data\mindows\img.7z.001");
+                    }
+                    catch
+                    {
+                        _ = Parent.ShowDialog("删除临时文件失败，请重启应用后再尝试下载！");
+                        stardownload = false;
+                    }
+                    if (stardownload)
+                    {
+                        mindowspath = String.Format(@"{0}\data\mindows\img", exepath);
+                        if (Global.drivelink1 != "" || Global.imglink != "")
+                        {
+                            if (!Directory.Exists(mindowspath))
+                            {
+                                if (Global.warn)
+                                {
+                                    DeviceWarn form2 = new DeviceWarn();
+                                    form2.Activate();
+                                }
+                                else
+                                {
+                                    DownloadResource form2 = new DownloadResource();
+                                    form2.Activate();
+                                }
+                            }
+                            else
+                            {
+                                bool result = await Parent.ShowDialogYesOrNo("您已下载资源！是否重新下载？");
+                                if (result == true)
+                                {
+                                    Mindows.DeleteFolder(@"data\mindows\driver");
+                                    Mindows.DeleteFolder(@"data\mindows\img");
+                                    if (Global.warn)
+                                    {
+                                        DeviceWarn form2 = new DeviceWarn();
+                                        form2.Activate();
+                                    }
+                                    else
+                                    {
+                                        DownloadResource form2 = new DownloadResource();
+                                        form2.Activate();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _ = Parent.ShowDialog("未能获取下载链接，请确认网络正常并重启程序！");
+                        }
+                    }
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("请选择机型！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("文件夹丢失！");
+            }
         }
 
         // 打开一键安装工具
@@ -385,5 +466,280 @@ namespace Toolbox
         private void FlashUefiBootAClick(object sender, RoutedEventArgs e) { BootCore(@"flash boot_a"); }
         private void FlashUefiBootBClick(object sender, RoutedEventArgs e) { BootCore(@"flash boot_b"); }
         private void FlashUefiRecoveryClick(object sender, RoutedEventArgs e) { BootCore(@"flash recovery"); }
+
+        // 恢复
+
+        private async void RecoveryCore(string mode)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
+            {
+                string filepath = "";
+                string filepath1 = String.Format(@"{0}\backup\boot.img", exepath);
+                string filepath2 = String.Format(@"{0}\backup\boot_a.img", exepath);
+                string filepath3 = String.Format(@"{0}\backup\boot_b.img", exepath);
+                if (File.Exists(filepath1))
+                {
+                    filepath = filepath1;
+                }
+                else if (File.Exists(filepath2))
+                {
+                    filepath = filepath2;
+                }
+                else if (File.Exists(filepath3))
+                {
+                    filepath = filepath3;
+                }
+                if (filepath != "")
+                {
+                    RecoverBootButton.IsEnabled = false;
+                    RecoverBootAButton.IsEnabled = false;
+                    RecoverBootBButton.IsEnabled = false;
+                    string shell = string.Format("flash ",mode ," {0}", filepath);
+                    string sfstring = await ADBHelper.Fastboot(shell);
+                    int sf = sfstring.IndexOf("FAILED");
+                    if (sf == -1)
+                    {
+                        _ = Parent.ShowDialog("恢复成功！");
+                    }
+                    else
+                    {
+                        _ = Parent.ShowDialog("恢复失败！");
+                    }
+                    RecoverBootButton.IsEnabled = true;
+                    RecoverBootAButton.IsEnabled = true;
+                    RecoverBootBButton.IsEnabled = true;
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("未找到备份文件！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请进入Fastboot模式！");
+            }
+        }
+
+        private void RecoverBootClick(object sender, RoutedEventArgs e) { RecoveryCore(@"boot"); }
+        private void RecoverBootToAClick(object sender, RoutedEventArgs e) { RecoveryCore(@"boot_a"); }
+        private void RecoverBootToBClick(object sender, RoutedEventArgs e) { RecoveryCore(@"boot_b"); }
+
+        private async void RecoverPart(object sender, RoutedEventArgs e)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Recovery")
+            {
+                Setdevice();
+                if (Global.device != "")
+                {
+                    string mindowspath = String.Format(@"{0}\data\mindows\img\recovery.img", exepath);
+                    if (File.Exists(mindowspath))
+                    {
+                        bool result = await Parent.ShowDialogYesOrNo("此操作将完全移除Windows部分！\n是否继续？");
+                        if (result == true)
+                        {
+                            Global.moreability = "repart";
+                            MindowsWidget form = new();
+                            form.Activate();
+                        }
+                    }
+                    else
+                    {
+                        _ = Parent.ShowDialog("未下载资源！");
+                    }
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("未选择机型！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请将设备进入Recovery模式后执行！");
+            }
+        }
+
+        // 格式化
+
+        private async void FormatCore(string mode)
+        {
+            Setdevice();
+            if (Global.device != "")
+            {
+                bool result = await Parent.ShowDialogYesOrNo("请先将设备进入大容量模式！\n是否继续？");
+                if (result == true)
+                {
+                    Global.moreability = mode;
+                    MindowsWidget form = new();
+                    form.Activate();
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未选择机型！");
+            }
+        }
+
+        private void FormatESP(object sender, RoutedEventArgs e) { FormatCore("formatesp"); }
+        private void FormatWindows(object sender, RoutedEventArgs e) { FormatCore("formatwin"); }
+
+
+        // 修复
+
+        private async void FixEsp(object sender, RoutedEventArgs e)
+        {
+            Setdevice();
+            if (Global.device != "")
+            {
+                bool result = await Parent.ShowDialogYesOrNo("请先将设备进入大容量模式！\n\r注意：此过程不会禁用驱动签名验证!");
+                if (result == true)
+                {
+                    Global.moreability = "fixesp";
+                    MindowsWidget form = new();
+                    form.Activate();
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未选择机型！");
+            }
+        }
+
+        private void DisableDriverSign(object sender, RoutedEventArgs e) { FormatCore("disdsv"); }
+
+        private async void LabelEfi(object sender, RoutedEventArgs e)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Recovery")
+            {
+                _ = ADBHelper.ADB("push bin/parted /tmp/");
+                _ = ADBHelper.ADB("shell chmod +x /tmp/parted");
+                string parttable = await ADBHelper.ADB("shell /tmp/parted /dev/block/sda print");
+                if (parttable.IndexOf("esp") != -1)
+                {
+                    int espno = Mindows.Onlynum(Mindows.Partno(parttable, "esp"));
+                    string shell = string.Format("shell /tmp/parted /dev/block/sda set {0} esp on", espno);
+                    _ = ADBHelper.ADB(shell);
+                    _ = Parent.ShowDialog("执行完成！");
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("未找到ESP分区！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请将设备进入Recovery模式后执行！");
+            }
+        }
+
+        private async void FlashDevcfg(object sender, RoutedEventArgs e)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
+            {
+                string filepath = String.Format(@"{0}\data\mindows\img\devcfg.img", exepath);
+                if (File.Exists(filepath))
+                {
+                    FlashDevcfgButton.IsEnabled = false;
+                    string sfstring = await ADBHelper.Fastboot(@"flash devcfg_ab data\mindows\img\devcfg.img");
+                    int sf = sfstring.IndexOf("FAILED");
+                    if (sf == -1)
+                    {
+                        _ = Parent.ShowDialog("刷入成功！");
+                    }
+                    else
+                    {
+                        _ = Parent.ShowDialog("刷入失败！");
+                    }
+                    FlashDevcfgButton.IsEnabled = true;
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("你的设备无需刷入此文件或未下载资源！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请进入Fastboot模式！");
+            }
+        }
+
+        private void InstallDrive(object sender, RoutedEventArgs e) { FormatCore("installdrive"); }
+
+        private void OpenDism(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"data\dism\Dism++x64.exe");
+        }
+
+        private async void EnterMassMode(object sender, RoutedEventArgs e)
+        {
+            Parent.CheckconAsync();
+            if (Parent.ConnInfoText == "Fastboot")
+            {
+                string filepath = String.Format(@"{0}\data\mindows\img\automass.img", exepath);
+                if (File.Exists(filepath))
+                {
+                    bool result = await Parent.ShowDialogYesOrNo("临时启动存在风险，请确保当前Boot为安卓Boot！\n是否继续？");
+                    if (result == true)
+                    {
+                        EnterMassModeButton.IsEnabled = false;
+                        string sfstring = await ADBHelper.Fastboot(@"boot data\mindows\img\automass.img");
+                        int sf = sfstring.IndexOf("FAILED");
+                        if (sf == -1)
+                        {
+                            _ = Parent.ShowDialog("启动成功！");
+                        }
+                        else
+                        {
+                            _ = Parent.ShowDialog("启动失败！");
+                        }
+                        EnterMassModeButton.IsEnabled = true;
+                    }
+                }
+                else
+                {
+                    _ = Parent.ShowDialog("未下载资源！！");
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("请进入Fastboot模式！");
+            }
+        }
+
+        private async void ReinstallWindows(object sender, RoutedEventArgs e)
+        {
+            Setdevice();
+            if (Global.device != "")
+            {
+                bool result = await Parent.ShowDialogYesOrNo("请先将设备进入大容量模式，并确保已将ESP与Windows分区格式化！\r\n注意：此过程不会安装驱动程序及UEFI，也不会禁用驱动签名验证！\n是否继续？");
+                if (result == true)
+                {
+                    Global.moreability = "installwin";
+                    MindowsWidget form = new();
+                    form.Activate();
+                }
+            }
+            else
+            {
+                _ = Parent.ShowDialog("未选择机型！");
+            }
+        }
+
+        // 其他
+
+        private void JoinGroup(object sender, RoutedEventArgs e) { Mindows.OpenDefaultBrowserUrl("https://jq.qq.com/?_wv=1027&k=xPu36sWg"); }
+        private void OpenBackupFolder(object sender, RoutedEventArgs e)
+        {
+            string filepath = String.Format(@"{0}\backup", exepath);
+            Process.Start("Explorer.exe", filepath);
+        }
+        private void OfficialWebsite(object sender, RoutedEventArgs e) { Mindows.OpenDefaultBrowserUrl("https://mindows.cn"); }
+        private void OfficialVideo(object sender, RoutedEventArgs e) { Mindows.OpenDefaultBrowserUrl("https://www.bilibili.com/video/BV1oY4y167SA"); }
+        private void DownloadRecommendImage(object sender, RoutedEventArgs e) { Mindows.OpenDefaultBrowserUrl("https://www.123pan.com/s/8eP9-BkTGA"); }
+        private void DownloadMoreImage(object sender, RoutedEventArgs e) { Mindows.OpenDefaultBrowserUrl("https://uupdump.cn"); }
+
     }
 }

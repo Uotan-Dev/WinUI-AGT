@@ -12,6 +12,8 @@ using static Toolbox.FlashRom;
 using Windows.ApplicationModel.Activation;
 using static Toolbox.MoreFlash;
 using static Toolbox.MindowsTool;
+using Windows.ApplicationModel.Core;
+using System.Diagnostics;
 
 namespace Toolbox
 {
@@ -28,7 +30,24 @@ namespace Toolbox
             var parent = new BootloaderDriverParameter { Parent = this };
             ContentFrame.Navigate(typeof(BootloaderDriver), parent);
             CheckconAsync();
+
+            Closed += CurrentWindowClosed;
         }
+
+        private void CurrentWindowClosed(object sender, WindowEventArgs e)
+        {
+            Process[] processes = Process.GetProcessesByName("adb");
+            if (processes.Length > 0)
+            {
+                // ¹Ø±Õadb.exe½ø³Ì
+                foreach (Process process in processes)
+                {
+                    process.Kill();
+                    process.Dispose();
+                }
+            }
+        }
+
         public string GetAppTitleFromSystem()
         {
             return Windows.ApplicationModel.Package.Current.DisplayName;

@@ -18,6 +18,7 @@ namespace Toolbox
         public MindowsInstall()
         {
             this.InitializeComponent();
+            MindowsInstallShown();
         }
 
         public Process process = null;
@@ -352,7 +353,7 @@ namespace Toolbox
         int succ = 0;//一旦等于1即为分区出错！
         string exepath = System.IO.Directory.GetCurrentDirectory();//获取工具运行路径
 
-        private async void MindowsInstall_Shown(object sender, EventArgs e)
+        private async void MindowsInstallShown()
         {
             Mindows.Disdevice();//区分机型
 

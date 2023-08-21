@@ -61,7 +61,7 @@ namespace Toolbox
             }
         }
 
-        private async void ConfirmClick(object sender, EventArgs e)
+        private async void ConfirmClick(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggleSwitch = (ToggleSwitch)sender;
             if (toggleSwitch.IsOn)
@@ -110,7 +110,7 @@ namespace Toolbox
             }
         }
 
-        private void CreateSharePartToggled(object sender, EventArgs e)
+        private void CreateSharePartToggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggleSwitch = (ToggleSwitch)sender;
             if (toggleSwitch.IsOn)

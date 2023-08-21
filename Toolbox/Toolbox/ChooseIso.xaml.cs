@@ -62,7 +62,7 @@ namespace Toolbox
             else PickWindowsFileOutput.PlaceholderText = "操作已取消";
         }
 
-        private void ConfirmClick(object sender, EventArgs e)
+        private void ConfirmClick(object sender, RoutedEventArgs e)
         {
             if (PickWindowsFileOutput.Text != "")
             {
