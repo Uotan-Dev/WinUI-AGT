@@ -1,8 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <Source>C:\Users\yuzh0\Desktop\WinUIAGT.png</Source>
+    <SmallTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</SmallTileSource>
+    <MediumTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</MediumTileSource>
+    <WideTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</WideTileSource>
+    <LargeTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</LargeTileSource>
+    <AppIconSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</AppIconSource>
+    <SplashScreenSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</PackageLogoSource>
+  </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
     <Page Update="DeviceWarn.xaml">
