@@ -36,26 +36,32 @@
         </Border>
         <Grid Name="PageContainer">
             <NavigationView x:Name="NavigationViewControl" IsTitleBarAutoPaddingEnabled="False" BackRequested="NavigationViewControl_BackRequested" SelectionChanged="NavigationView_SelectionChanged" PaneDisplayMode="Auto"  PaneTitle="Android 极客工具箱" IsSettingsVisible="False">
-                <NavigationView.Header>
-                    <StackPanel VerticalAlignment="Top" Orientation="Vertical" Margin="0,0,55,0">
-                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                            <TextBlock Text="设备状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="0,5,0,0"/>
-                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="conninfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
-                            <TextBlock Text="BL锁状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="BLinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
-                            <TextBlock Text="VAB状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="VABinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
-                            <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
-                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
-                            <Button x:Name="checkconn" Content="检查连接" Click="CheckconnClick" Margin="15,0,0,0"></Button>
-                        </StackPanel>
-                        <InfoBar x:Name="LoadingTip" IsOpen="False" Severity="Warning" Title="操作中"/>
-                        <ProgressBar x:Name="LoadingBar" Width="auto" IsIndeterminate="False" ShowPaused="False" ShowError="False" Margin="0,0,0,-15"/>
-                    </StackPanel>
-                </NavigationView.Header>
                 <NavigationView.AutoSuggestBox>
                     <AutoSuggestBox x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find" QuerySubmitted="QuerySubmitted" SuggestionChosen="SuggestionChosen"/>
                 </NavigationView.AutoSuggestBox>
+                <NavigationView.PaneCustomContent>
+                    <StackPanel VerticalAlignment="Top" Orientation="Vertical" Margin="0,0,55,0">
+                        <ProgressBar x:Name="LoadingBar" Width="auto" IsIndeterminate="False" ShowPaused="False" ShowError="False" Margin="0,0,0,0"/>
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <TextBlock Text="设备状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="conninfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <TextBlock Text="BL锁状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="BLinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <TextBlock Text="VAB状态：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="VABinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                            <TextBlock Text="设备代号：" Style="{StaticResource BodyStrongTextBlockStyle}" TextWrapping="Wrap" Padding="20,5,0,0"/>
+                            <TextBlock Text="未知" Style="{StaticResource BodyTextBlockStyle}" x:Name="productinfo" TextWrapping="Wrap" Padding="0,5,0,0"/>
+                        </StackPanel>
+                        <Button x:Name="checkconn" Content="检查连接" Click="CheckconnClick" Margin="15,0,0,0"></Button>
+                        <InfoBar x:Name="LoadingTip" IsOpen="False" Severity="Warning" Title="操作中"/>
+                    </StackPanel>
+                </NavigationView.PaneCustomContent>
                 <NavigationView.MenuItems>
                     <NavigationViewItem Icon="Play" Content="BL锁及驱动" Tag="BootloaderDriver" Name="BLDriverMenuItem"/>
                     <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
