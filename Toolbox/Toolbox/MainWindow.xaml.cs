@@ -30,7 +30,6 @@ namespace Toolbox
             var parent = new BootloaderDriverParameter { Parent = this };
             ContentFrame.Navigate(typeof(BootloaderDriver), parent);
             CheckconAsync();
-
             Closed += CurrentWindowClosed;
         }
 
@@ -39,7 +38,6 @@ namespace Toolbox
             Process[] processes = Process.GetProcessesByName("adb");
             if (processes.Length > 0)
             {
-                // ¹Ø±Õadb.exe½ø³Ì
                 foreach (Process process in processes)
                 {
                     process.Kill();
