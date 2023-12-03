@@ -38,14 +38,12 @@
         </Grid>
         <NavigationView
             x:Name="NavigationViewControl"
+            PaneTitle="Android 极客工具箱"
             IsTitleBarAutoPaddingEnabled="False"
             AlwaysShowHeader="True"
             BackRequested="NavigationViewControl_BackRequested"
-            SelectionChanged="NavigationView_SelectionChanged"
-            IsTabStop="False"
-            PaneDisplayMode="Auto"
-            PaneTitle="Android 极客工具箱"
-            IsSettingsVisible="False">
+            ItemInvoked="NavigationViewControl_ItemInvoked"
+            PaneDisplayMode="Auto">
             <NavigationView.AutoSuggestBox>
                 <AutoSuggestBox x:Name="ASB" PlaceholderText="搜索" QueryIcon="Find" QuerySubmitted="QuerySubmitted" SuggestionChosen="SuggestionChosen"/>
             </NavigationView.AutoSuggestBox>
@@ -73,15 +71,12 @@
                 </StackPanel>
             </NavigationView.PaneCustomContent>
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Play" Content="BL锁及驱动" Tag="BootloaderDriver" Name="BLDriverMenuItem"/>
-                <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Rec_Reboot" Name="RecRebootMenuItem"/>
-                <NavigationViewItem Icon="Repair" Content="线刷ROM" Tag="FlashRom" Name="FlashRomMenuItem"/>
-                <NavigationViewItem Icon="More" Content="更多线刷" Tag="MoreFlash" Name="MoreFlashMenuItem"/>
-                <NavigationViewItem Icon="Keyboard" Content="Mindows工具箱" Tag="MindowsTool" Name="MindowsToolMenuItem"/>
+                <NavigationViewItem Icon="Play" Content="Bootloader 和驱动" Tag="Toolbox.BootloaderDriver" Name="BLDriverMenuItem"/>
+                <NavigationViewItem Icon="Save" Content="刷入Rec及重启" Tag="Toolbox.Rec_Reboot" Name="RecRebootMenuItem"/>
+                <NavigationViewItem Icon="Repair" Content="线刷ROM" Tag="Toolbox.FlashRom" Name="FlashRomMenuItem"/>
+                <NavigationViewItem Icon="More" Content="更多线刷" Tag="Toolbox.MoreFlash" Name="MoreFlashMenuItem"/>
+                <NavigationViewItem Icon="Keyboard" Content="Mindows工具箱" Tag="Toolbox.MindowsTool" Name="MindowsToolMenuItem"/>
             </NavigationView.MenuItems>
-            <NavigationView.FooterMenuItems>
-                <NavigationViewItem Icon="Setting" Content="设置" Tag="Setting" Name="Setting"/>
-            </NavigationView.FooterMenuItems>
             <Frame x:Name="ContentFrame" Navigated="ContentFrame_Navigated" Padding="55,10,0,0"/>
         </NavigationView>
     </Grid>

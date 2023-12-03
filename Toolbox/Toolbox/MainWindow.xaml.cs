@@ -26,6 +26,11 @@ namespace Toolbox
 
             Title = "Android 极客工具箱";
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems.OfType<NavigationViewItem>().First();
+            ContentFrame.Navigate(
+                typeof(BootloaderDriver),
+                null,
+                new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo()
+            );
 
             SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
 
@@ -194,52 +199,46 @@ namespace Toolbox
             CheckconAsync();
         }
 
-        // 侧边导航点击切换
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationViewControl_ItemInvoked(NavigationView sender,
+                      NavigationViewItemInvokedEventArgs args)
         {
-            var selectedItem = (NavigationViewItem)args.SelectedItem;
-            if ((string)selectedItem.Tag == "BootloaderDriver")
+            if (args.IsSettingsInvoked == true)
             {
-                var parent = new BootloaderDriverParameter { Parent = this };
-                ContentFrame.Navigate(typeof(BootloaderDriver), parent);
+                ContentFrame.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
             }
-            else if ((string)selectedItem.Tag == "Rec_Reboot")
+            else if (args.InvokedItemContainer != null && (args.InvokedItemContainer.Tag != null))
             {
-                var parent = new RecRebootParameter { Parent = this };
-                ContentFrame.Navigate(typeof(Rec_Reboot), parent);
-            }
-            else if ((string)selectedItem.Tag == "FlashRom")
-            {
-                var parent = new FlashRomParameter { Parent = this };
-                ContentFrame.Navigate(typeof(FlashRom), parent);
-            }
-            else if ((string)selectedItem.Tag == "MoreFlash")
-            {
-                var parent = new MoreFlashParameter { Parent = this };
-                ContentFrame.Navigate(typeof(MoreFlash), parent);
-            }
-            else if ((string)selectedItem.Tag == "MindowsTool")
-            {
-                var parent = new MindowsToolParameter { Parent = this };
-                ContentFrame.Navigate(typeof(MindowsTool), parent);
-            }
-            else if ((string)selectedItem.Tag == "Setting")
-            {
-                ContentFrame.Navigate(typeof(SettingsPage));
+                Type newPage = Type.GetType(args.InvokedItemContainer.Tag.ToString());
+                ContentFrame.Navigate(
+                       newPage,
+                       null,
+                       args.RecommendedNavigationTransitionInfo
+                       );
             }
         }
 
         // 侧边导航 返回按钮
         private void NavigationViewControl_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            if (ContentFrame.CanGoBack)
-            {
-                ContentFrame.GoBack();
-            }
+            if (ContentFrame.CanGoBack) ContentFrame.GoBack();
         }
+
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
             NavigationViewControl.IsBackEnabled = ContentFrame.CanGoBack;
+
+            if (ContentFrame.SourcePageType == typeof(SettingsPage))
+            {
+                NavigationViewControl.SelectedItem = (NavigationViewItem)NavigationViewControl.SettingsItem;
+            }
+            else if (ContentFrame.SourcePageType != null)
+            {
+                NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems
+                    .OfType<NavigationViewItem>()
+                    .First(n => n.Tag.Equals(ContentFrame.SourcePageType.FullName.ToString()));
+            }
+
+            NavigationViewControl.Header = ((NavigationViewItem)NavigationViewControl.SelectedItem)?.Content?.ToString();
         }
     }
 }
