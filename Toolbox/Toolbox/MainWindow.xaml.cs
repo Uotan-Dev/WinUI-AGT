@@ -22,14 +22,17 @@ namespace Toolbox
         public MainWindow()
         {
             this.InitializeComponent();
+            var parent = new BootloaderDriverParameter { Parent = this };
+
             Title = "Android 极客工具箱";
-            SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems.OfType<NavigationViewItem>().First();
 
-            // 创建一个临时对象来传递母窗口
-            var parent = new BootloaderDriverParameter { Parent = this };
-            ContentFrame.Navigate(typeof(BootloaderDriver), parent);
+            SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
+
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
             CheckconAsync();
+
             Closed += CurrentWindowClosed;
         }
 
@@ -51,7 +54,7 @@ namespace Toolbox
             return Windows.ApplicationModel.Package.Current.DisplayName;
         }
 
-        // 消息弹窗 = MessageBox
+        // 消息弹窗
         public async Task ShowDialog(string content)
         {
             ContentDialog dialog = new()
