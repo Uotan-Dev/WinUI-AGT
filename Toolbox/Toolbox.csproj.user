@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\yuzh0\Desktop\WinUIAGT.png</Source>
+    <SmallTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</SmallTileSource>
+    <MediumTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</MediumTileSource>
+    <WideTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</WideTileSource>
+    <LargeTileSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</LargeTileSource>
+    <AppIconSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</AppIconSource>
+    <SplashScreenSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\yuzh0\Desktop\WinUIAGT.png</PackageLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="DeviceWarn.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MindowsWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DownloadResource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ChooseIso.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SetWinPart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MindowsInstall.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MindowsTool.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MoreFlash.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="FlashRom.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ContentDialogContent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Rec_Reboot.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="BootloaderDriver.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
