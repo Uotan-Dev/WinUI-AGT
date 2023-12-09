@@ -14,6 +14,7 @@ using static Toolbox.MoreFlash;
 using static Toolbox.MindowsTool;
 using Windows.ApplicationModel.Core;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Toolbox
 {
@@ -26,9 +27,10 @@ namespace Toolbox
 
             Title = "Android 极客工具箱";
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems.OfType<NavigationViewItem>().First();
+
             ContentFrame.Navigate(
                 typeof(BootloaderDriver),
-                null,
+                parent,
                 new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo()
             );
 
@@ -209,9 +211,13 @@ namespace Toolbox
             else if (args.InvokedItemContainer != null && (args.InvokedItemContainer.Tag != null))
             {
                 Type newPage = Type.GetType(args.InvokedItemContainer.Tag.ToString());
+                var newPageParameterString = args.InvokedItemContainer.Tag.ToString() + "+"+Regex.Replace((args.InvokedItemContainer.Tag.ToString()) + "Parameter", @"^Toolbox\.", "");
+                Type newPageParameter = Type.GetType(newPageParameterString);
+                var parent = Activator.CreateInstance(newPageParameter);
+                newPageParameter.GetProperty("Parent").SetValue(parent, this);
                 ContentFrame.Navigate(
                        newPage,
-                       null,
+                       parent,
                        args.RecommendedNavigationTransitionInfo
                        );
             }

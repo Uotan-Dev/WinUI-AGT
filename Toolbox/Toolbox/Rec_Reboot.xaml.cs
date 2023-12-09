@@ -12,7 +12,7 @@ namespace Toolbox
     {
         public new MainWindow Parent { get; set; }
 
-        public class RecRebootParameter
+        public class Rec_RebootParameter
         {
             public MainWindow Parent { get; set; }
         }
@@ -21,7 +21,7 @@ namespace Toolbox
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is RecRebootParameter parameter)
+            if (e.Parameter is Rec_RebootParameter parameter)
             {
                 Parent = parameter.Parent;
             }
